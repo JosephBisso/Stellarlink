@@ -27,16 +27,7 @@ jobs:
       matrix:
         qt_ver: [6.1.0]
         qt_target: [desktop]
-        config:
-          - {
-            arch: x86,
-            generator: "-G'Visual Studio 16 2019' -A Win32",
-            vcpkg_triplet: x86-windows,
-            qt_arch: win32_msvc2019,
-            qt_arch_install: msvc2019,
-            pak_arch: win32
-          }
-          - {
+        config: {
             arch: x64,
             generator: "-G'Visual Studio 16 2019' -A x64",
             vcpkg_triplet: x64-windows,
@@ -79,7 +70,7 @@ jobs:
       working-directory: build
       shell: pwsh
       run: |
-        cmake .. ${{ github.workspace }}
+        cmake ..
 
     - name: Compile
       working-directory: build
