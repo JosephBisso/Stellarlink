@@ -12,11 +12,11 @@ jobs:
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     env:
       VCINSTALLDIR: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/
-      Qt6_DIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{ matrix.config.qt_arch_install }}\lib\cmake\Qt6\
+      Qt5_DIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{ matrix.config.qt_arch_install }}\lib\cmake\Qt5\
       QTDIR: ${{ github.workspace }}\build\Qt\${{ matrix.qt_ver }}\${{ matrix.config.qt_arch_install }}\
       # 2020.07
       VCPKG_VERSION: 56fffbe49dfb4dd8fae0940f272c5fd2b86be991
@@ -77,18 +77,11 @@ jobs:
 
     - name: Configure
       working-directory: build
-      shell: bash
+      shell: pwsh
       run: |
-        cmake ..  ${{matrix.config.generator}}  `
-        -GNinja
-        -DCMAKE_BUILD_TYPE:STRING=Debug
-        -DCMAKE_PROJECT_INCLUDE_BEFORE:PATH=%{IDE:ResourcePath}/package-manager/auto-setup.cmake
-        -DQT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}
-        -DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}
-        -DCMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}
-        -DCMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}
-        
+        cmake .. ${{ github.workspace }}
+
     - name: Compile
       working-directory: build
       shell: pwsh
-      run: cmake --build . --target all
+      run: cmake --build . --target stellarlink
