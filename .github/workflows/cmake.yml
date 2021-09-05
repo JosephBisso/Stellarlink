@@ -49,11 +49,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v4
       with:
@@ -69,6 +64,7 @@ jobs:
       with:
         path: ./build/Qt/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch_install }}
         key: ${{ runner.os }}-QtCache/${{ matrix.qt_ver }}/${{ matrix.config.qt_arch }}
+
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
@@ -78,6 +74,7 @@ jobs:
         dir: '${{ github.workspace }}/build/'
         modules: 'qtscript'
         cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
     - name: Configure
       working-directory: build
       shell: bash
@@ -90,6 +87,7 @@ jobs:
         -DCMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}
         -DCMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}
         -DCMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}
+        
     - name: Compile
       working-directory: build
       shell: pwsh
