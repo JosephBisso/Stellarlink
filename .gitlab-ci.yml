@@ -5,30 +5,19 @@ stages:
 variables:
   BUILD_PATH: ""
 
-prepare:
+prepare_compile:
   stage: preparation_compile
   variables: 
-    GIT_STRATEGY: none
-  tags:
-    - shared-windows
-  script:
-    - choco feature enable -n allowGlobalConfirmation
-    - choco install qt5-default boost-msvc-14.2 cmake
-  # artifacts:
-  #   name: $CI_JOB_NAME
-  #   paths:
-  #     - "C:/Qt"
-  #     - "C:/local"
-  #     - "C:/Program Files/CMake"
-
-compile:
-  stage: preparation_compile
-  variables:
     GIT_SUBMODULE_STRATEGY: recursive
   tags:
     - shared-windows
-  script: 
+  script:
     - |
+      # Install Dependencies
+      choco feature enable -n allowGlobalConfirmation
+      choco install qt5-default boost-msvc-14.2 cmake
+      
+      # Compile
       cd ..
       mkdir build
       cd build
@@ -40,11 +29,7 @@ compile:
      name: $CI_JOB_NAME
      paths:
        - "$BUILD_PATH"
-  needs: 
-    - job: "prepare"
-      # artifacts: true
-
-
+  
 run:
   stage: test
   variables:
@@ -56,5 +41,5 @@ run:
       & "$BUILD_PATH/stellarlink.exe"
       echo "Tested"
   needs: 
-    - job: "compile"
+    - job: "prepare_compile"
       artifacts: true
