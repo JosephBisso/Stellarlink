@@ -10,10 +10,6 @@ prepare:
   variables:
   script:
     - choco install qt5-default
-  artifacts:
-    name: Qt
-    paths:
-      -
 
 compile:
   stage: build
