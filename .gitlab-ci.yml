@@ -1,0 +1,34 @@
+stages:
+  - preparation
+  - build
+  - test
+
+prepare:
+  stage: preparation
+  tags:
+    - shared-windows
+  variables:
+  script:
+    - choco install qt5-default
+  artifacts:
+    name: Qt
+    paths:
+      -
+
+compile:
+  stage: build
+  tags:
+    - shared-windows
+  script: 
+    - cmake .
+    - cmake --build . --target stellarlink
+  needs: ["prepare"]
+
+
+run:
+  stage: test
+  tags:
+    - shared-windows
+  script:
+    - echo "Tested"
+  needs: ["prepare", "compile"]
