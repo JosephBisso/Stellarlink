@@ -30,8 +30,8 @@ compile:
       cd ..
       mkdir build
       cd build
-      "C:/Program Files/CMake/bin/cmake" $CI_PROJECT_DIR
-      "C:/Program Files/CMake/bin/cmake" --build . --target stellarlink
+      & "C:/Program Files/CMake/bin/cmake.exe" $CI_PROJECT_DIR
+      & "C:/Program Files/CMake/bin/cmake.exe" --build . --target stellarlink
       cd $CI_PROJECT_DIR
       echo "BUILD_PATH=$(Get-Location).Path" >> compile.env
   artifacts:
@@ -54,7 +54,7 @@ run:
   tags:
     - shared-windows
   script:
-    - "$BUILD_PATH/stellarlink.exe"
+    - & "$BUILD_PATH/stellarlink.exe"
     - echo "Tested"
   needs: 
     - job: "compile"
