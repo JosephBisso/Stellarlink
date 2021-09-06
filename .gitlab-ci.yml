@@ -12,12 +12,12 @@ prepare:
   script:
     - choco feature enable -n allowGlobalConfirmation
     - choco install qt5-default boost-msvc-14.2 cmake
-  artifacts:
-    name: $CI_JOB_NAME
-    paths:
-      - "C://Qt"
-      - "C://local"
-      - "C:/Program Files/CMake"
+  # artifacts:
+  #   name: $CI_JOB_NAME
+  #   paths:
+  #     - "C:/Qt"
+  #     - "C:/local"
+  #     - "C:/Program Files/CMake"
 
 compile:
   stage: build
@@ -25,21 +25,23 @@ compile:
     GIT_STRATEGY: none
   tags:
     - shared-windows
-  script: -\
+  script: 
+    -|
       cd ..
       mkdir build
       cd build
       "C:/Program Files/CMake/bin/cmake" $CI_PROJECT_DIR
       "C:/Program Files/CMake/bin/cmake" --build . --target stellarlink
+      cd $CI_PROJECT_DIR
       echo "BUILD_PATH=$(Get-Location).Path" >> compile.env
   artifacts:
-    name: $CI_JOB_NAME
-    paths:
-      - "C://Qt"
-      - "C://local"
-      - "C:/Program Files/CMake"
+    # name: $CI_JOB_NAME
+    # paths:
+    #   - "C://Qt"
+    #   - "C://local"
+    #   - "C:/Program Files/CMake"
     reports:
-      dotenv: compile.env
+      dotenv: $CI_PROJECT_DIR/compile.env
   needs: 
     - job: "prepare"
       artifacts: true
