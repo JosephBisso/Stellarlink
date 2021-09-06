@@ -1,0 +1,3 @@
+[submodule "lib\\odeint-v2"]
+	path = lib\\odeint-v2
+	url = https://github.com/headmyshoulder/odeint-v2.git

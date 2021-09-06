@@ -11,7 +11,7 @@ prepare:
     - shared-windows
   script:
     - choco feature enable -n allowGlobalConfirmation
-    - choco install qt5-default
+    - choco install qt5-default boost-msvc-14.2
 
 compile:
   stage: build
