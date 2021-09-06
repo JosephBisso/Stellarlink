@@ -25,13 +25,13 @@ compile:
     GIT_STRATEGY: none
   tags:
     - shared-windows
-  script: 
-    - cd ..
-    - mkdir build
-    - cd build
-    - "C:/Program Files/CMake/bin/cmake" $CI_PROJECT_DIR
-    - "C:/Program Files/CMake/bin/cmake" --build . --target stellarlink
-    - echo "BUILD_PATH=$(Get-Location).Path" >> compile.env
+  script: -\
+      cd ..
+      mkdir build
+      cd build
+      "C:/Program Files/CMake/bin/cmake" $CI_PROJECT_DIR
+      "C:/Program Files/CMake/bin/cmake" --build . --target stellarlink
+      echo "BUILD_PATH=$(Get-Location).Path" >> compile.env
   artifacts:
     name: $CI_JOB_NAME
     paths:
@@ -41,7 +41,7 @@ compile:
     reports:
       dotenv: compile.env
   needs: 
-    - jobs: "prepare"
+    - job: "prepare"
       artifacts: true
 
 
@@ -55,5 +55,5 @@ run:
     - $BUILD_PATH\stellarlink.exe
     - echo "Tested"
   needs: 
-    - jobs: ["compile"]
+    - job: "compile"
       artifacts: true
