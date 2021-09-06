@@ -15,20 +15,21 @@ prepare_compile:
     - |
       # Install Dependencies
       choco feature enable -n allowGlobalConfirmation
-      choco install qt5-default boost-msvc-14.2 cmake
+      choco install qt5-default qbs boost-msvc-14.2 cmake
       
       # Compile
+      Get-ChildItem
       cd ..
       mkdir build
       cd build
-      & "C:/Program Files/CMake/bin/cmake.exe" $CI_PROJECT_DIR
-      & "C:/Program Files/CMake/bin/cmake.exe" --build . --target stellarlink
-      cd $CI_PROJECT_DIR
       $BUILD_PATH=$(Get-Location).Path
+      & "C:/Program Files/CMake/bin/cmake.exe" stellarlink
+      & "C:/Program Files/CMake/bin/cmake.exe" --build . --target stellarlink
+      cd ..
   artifacts:
      name: $CI_JOB_NAME
      paths:
-       - "$BUILD_PATH"
+       - "C:/GitLab-Runner/builds/JosephBisso/build"
   
 run:
   stage: test
@@ -38,7 +39,7 @@ run:
     - shared-windows
   script:
     - |
-      & "$BUILD_PATH/stellarlink.exe"
+      & "C:/GitLab-Runner/builds/JosephBisso/build/stellarlink.exe"
       echo "Tested"
   needs: 
     - job: "prepare_compile"
