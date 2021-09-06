@@ -26,7 +26,7 @@ compile:
   tags:
     - shared-windows
   script: 
-    -|
+    - |
       cd ..
       mkdir build
       cd build
@@ -54,7 +54,7 @@ run:
   tags:
     - shared-windows
   script:
-    - $BUILD_PATH\stellarlink.exe
+    - "$BUILD_PATH/stellarlink.exe"
     - echo "Tested"
   needs: 
     - job: "compile"
