@@ -5,26 +5,33 @@ stages:
 
 prepare:
   stage: preparation
+  variables: 
+  GIT_SUBMODULE_STRATEGY: recursive
   tags:
     - shared-windows
   variables:
   script:
+    - choco feature enable -n allowGlobalConfirmation
     - choco install qt5-default
 
 compile:
   stage: build
+  GIT_STRATEGY: none
   tags:
     - shared-windows
   script: 
-    - cmake .
+    - mkdir build && cd build
+    - cmake ..
     - cmake --build . --target stellarlink
   needs: ["prepare"]
 
 
 run:
   stage: test
+  GIT_STRATEGY: none
   tags:
     - shared-windows
   script:
+    - build\stellarlink.exe
     - echo "Tested"
   needs: ["prepare", "compile"]

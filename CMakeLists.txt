@@ -54,6 +54,11 @@ target_compile_definitions(Stellarlink
 target_link_libraries(Stellarlink
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
 
+target_include_directories(Stellarlink PUBLIC
+                          "${PROJECT_BINARY_DIR}"
+                          "${PROJECT_SOURCE_DIR}/lib/odeint-v2/include"
+                          )
+
 set_target_properties(Stellarlink PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
