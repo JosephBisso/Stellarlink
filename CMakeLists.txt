@@ -18,8 +18,10 @@ find_package(Boost 1.74.0)
 set(TS_FILES Stellarlink_en_DE.ts)
 
 set(PROJECT_SOURCES
-        main.cpp
+        src/main.cpp
         qml.qrc
+        src/touchable.h
+        src/touchable.cpp
         ${TS_FILES}
 )
 
@@ -51,6 +53,7 @@ else()
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
+include_directories(src qml)
 
 target_compile_definitions(Stellarlink
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
