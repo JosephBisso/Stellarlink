@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/LWXdevGrid.qml</file>
+        <file>qml/Field.qml</file>
+        <file>qml/BallQML.qml</file>
     </qresource>
 </RCC>

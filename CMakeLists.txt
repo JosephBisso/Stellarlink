@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml LinguistTools REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml LinguistTools REQUIRED)
 find_package(Boost 1.74.0)
 
 set(TS_FILES Stellarlink_en_DE.ts)
@@ -22,6 +22,15 @@ set(PROJECT_SOURCES
         qml.qrc
         src/touchable.h
         src/touchable.cpp
+        src/ball.h
+        src/ball.cpp
+        src/stellarlink.h
+        src/stellarlink.cpp
+        src/STElement.cpp
+        src/floor.h
+        src/floor.cpp
+        src/stellarengine.h
+        src/stellarengine.cpp
         ${TS_FILES}
 )
 
@@ -58,7 +67,7 @@ include_directories(src qml)
 target_compile_definitions(Stellarlink
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(Stellarlink
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Qml)
 
 target_include_directories(Stellarlink PUBLIC
                           "${PROJECT_BINARY_DIR}"
