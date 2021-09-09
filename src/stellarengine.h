@@ -2,24 +2,38 @@
 #define STELLARENGINE_H
 
 #include <QObject>
+#include <QElapsedTimer>
 
 #include "ball.h"
 
 class StellarEngine : public QObject
 {
     Q_OBJECT
+private:
+    QPointer<Ball> ball;
+    QPointer<Floor> floor;
 
+    QElapsedTimer time;
+
+    bool engineOn;
 
 public:
-    explicit StellarEngine(QObject *parent = nullptr);
+    explicit StellarEngine(Ball* ball, Floor* floor, QObject *parent = nullptr);
 
-    void computeFall(Ball* ball);
+    QPointer<Ball> getBall() const;
+
+    QPointer<Floor> getFloor() const;
+
+    QElapsedTimer getTime() const;
 
 signals:
 
+
 public slots:
+    void start();
+    void pause();
 
-
+    void ballFallStep();
 };
 
 #endif // STELLARENGINE_H

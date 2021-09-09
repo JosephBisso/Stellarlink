@@ -10,6 +10,16 @@ void Touchable::setType(STElement newType)
     type = newType;
 }
 
+double Touchable::getMasse() const
+{
+    return masse;
+}
+
+void Touchable::setMasse(double newMasse)
+{
+    masse = newMasse;
+}
+
 Touchable::Touchable(QObject *parent) : QObject(parent)
 {
     this -> pos_x = 0;
@@ -59,9 +69,4 @@ void Touchable::move(double dx, double dy)
     this -> setPos_y(this -> getPos_y() + dy);
 }
 
-
-void Touchable::moveOnScreen()
-{
-
-}
 

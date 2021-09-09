@@ -1,15 +1,31 @@
 #include "floor.h"
 
-Floor::Floor(QObject *parent) : Touchable(parent)
-{
-    this -> setType(STElement::Floor);
-}
-
-Floor::Floor(double rauheit) : Touchable()
+Floor::Floor(double rauheit, QObject *parent) : Touchable(parent)
 {
     this -> rauheit = rauheit;
     this -> setType(STElement::Floor);
+    this -> randomFactor = rand() % 100;
+    this -> randomFactor2 = rand() % 100;
+    this -> randomFactor3 = rand() % 100;
+    createFloorLine();
 }
+
+const QPolygonF &Floor::getFloorLine() const
+{
+    return floorLine;
+}
+
+void Floor::createFloorLine()
+{
+    for (int i = 0; i <= FieldSizes::Width; i++) {
+        this -> floorLine << QPointF(i, equation(i));
+    }
+
+    emit floorLineChanged();
+
+//    qDebug() << this -> floorLine;
+}
+
 
 FloorType Floor::getFloorType() const
 {
@@ -38,10 +54,10 @@ bool Floor::touched(Touchable *touchable)
     if (nullptr == touchable) return false;
     if (this == touchable) return false;
 
-    if (touchable -> getType() == STElement::Ball) {
-        QPointer<Ball> ball = dynamic_cast<Ball*>(touchable);
-        return pow(ball -> getPos_x() - this -> getPos_x(), 2.0) + pow(ball -> getPos_y() - this -> getPos_y(), 2.0) <= pow(ball -> getRadius(), 2.0);
-    }
+    return this -> floorLine.at(touchable -> getPos_x()).y() <= touchable -> getPos_y();
+}
 
-    return touchable -> getPos_x() == this -> getPos_x() && touchable -> getPos_y() == this -> getPos_y();
+double Floor::equation(double x)
+{
+    return 40 * sin (0.00015 * this -> randomFactor3 * M_PI * x) + 40 * sin (0.0001 * this -> randomFactor2 * M_PI * x) + 40 * sin (this -> randomFactor * M_PI * 0.0002 * x) + FieldSizes::FloorMittelPosition;
 }

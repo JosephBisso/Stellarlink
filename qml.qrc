@@ -3,6 +3,7 @@
         <file>qml/main.qml</file>
         <file>qml/LWXdevGrid.qml</file>
         <file>qml/Field.qml</file>
-        <file>qml/BallQML.qml</file>
+        <file>qml/Ball.qml</file>
+        <file>qml/Floor.qml</file>
     </qresource>
 </RCC>

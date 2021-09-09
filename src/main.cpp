@@ -31,9 +31,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    QPointer<Ball> ballLogik = new Ball(25);
-    QPointer<StellarEngine> stellarEngine = new StellarEngine();
-    QPointer<Floor> floorLogik = new Floor();
+    QPointer<Ball> ballLogik = new Ball(35);
+    QPointer<Floor> floorLogik = new Floor(0);
+    QPointer<StellarEngine> stellarEngine = new StellarEngine(ballLogik, floorLogik);
 
     engine.rootContext() -> setContextProperty("ballLogik", ballLogik);
     engine.rootContext() -> setContextProperty("stellarEngine", stellarEngine);

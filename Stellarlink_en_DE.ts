@@ -4,7 +4,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="qml/main.qml" line="9"/>
+        <location filename="qml/main.qml" line="11"/>
         <source>StellarLINK</source>
         <translation type="unfinished"></translation>
     </message>

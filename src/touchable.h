@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QPointer>
 #include <qqml.h>
+#include <QPolygonF>
+#include <QDebug>
 
 #include "STElement.cpp"
 
@@ -18,14 +20,13 @@ private:
     double pos_x;
     double pos_y;
     double velocity;
+    double masse;
     STElement type;
 
 public:
     explicit Touchable(QObject *parent = nullptr);
 
-    virtual bool touched(Touchable* touchable) = 0;
-
-    void moveOnScreen();
+//    virtual void equation() = 0;
 
     void setPos_x(double newPos_x);
     double getPos_x() const;
@@ -39,6 +40,9 @@ public:
     STElement getType() const;
     void setType(STElement newType);
 
+    double getMasse() const;
+    void setMasse(double newMasse);
+
 signals:
     void pos_xChanged();
 
@@ -49,6 +53,7 @@ signals:
 public slots:
     void move(double dx, double dy);
 
+    virtual bool touched(Touchable* touchable) = 0;
 };
 
 #endif // TOUCHABLE_H

@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include "touchable.h"
+#include "floor.h"
 
 class Ball : public Touchable
 {
@@ -17,10 +18,7 @@ private:
     double health;
 
 public:
-    explicit Ball(QObject *parent = nullptr);
-    Ball(double radius);
-
-    bool touched(Touchable* touchable);
+    explicit Ball(double radius, QObject *parent = nullptr);
 
     bool hit(double health);
 
@@ -41,6 +39,9 @@ signals:
     void fuelleChanged();
 
     void healthChanged();
+
+public slots:
+    bool touched(Touchable* touchable);
 
 };
 
