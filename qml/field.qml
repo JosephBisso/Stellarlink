@@ -7,21 +7,34 @@ Item {
 
     Keys.onEnterPressed: {
         console.log("Enter pressed")
-//        fall()
-        stellarEngine.start()
-        runner.start()
+        if (!stellarEngine.engineOn) {
+            stellarEngine.start()
+            runner.start()
+        }
     }
 
     Keys.onSpacePressed: {
         console.log("Space pressed")
         stellarEngine.pause()
+        mainFloor.refresh()
+        runner.stop()
+    }
+
+    Keys.onBacktabPressed: {
+        console.log("Backtab pressed")
+        stellarEngine.stop()
+        floorLogik.resetFloorLine()
+        mainFloor.refresh()
         runner.stop()
     }
 
     Timer {
         id: runner
-        interval: 15; running: false; repeat: true
-        onTriggered: stellarEngine.ballFallStep()
+        interval: 30; running: false; repeat: true
+        onTriggered: {
+            stellarEngine.step()
+            mainFloor.refresh()
+        }
     }
 
     LWXdevGrid {
@@ -35,26 +48,10 @@ Item {
     Ball {
         id: ball1
 
-        onYChanged: {
-            if (ballLogik.touched(floorLogik)){ballLogik.pos_y = 0;}
-            checkPosition()
-        }
-
-
-        //x: 50
-        //y: -50
     }
 
     Floor {
         id: mainFloor
-    }
-
-    function checkPosition() {
-//        ballLogik.move(0, 5)
-        console.log("Checking x, y position on screen")
-        if (ballLogik.pos_y === parent.height) {ballLogik.pos_y = 0;}
-        if (ballLogik.pos_x === parent.width) {ballLogik.pos_x = 0;}
-//        console.log("x= " + ballLogik.pos_x + ", y =" + ballLogik.pos_y)
     }
 
 }

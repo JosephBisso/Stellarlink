@@ -7,7 +7,7 @@ Floor::Floor(double rauheit, QObject *parent) : Touchable(parent)
     this -> randomFactor = rand() % 100;
     this -> randomFactor2 = rand() % 100;
     this -> randomFactor3 = rand() % 100;
-    createFloorLine();
+    createFloorLine(0);
 }
 
 const QPolygonF &Floor::getFloorLine() const
@@ -15,10 +15,27 @@ const QPolygonF &Floor::getFloorLine() const
     return floorLine;
 }
 
-void Floor::createFloorLine()
+void Floor::createFloorLine(double ballAbsoluteXPosition)
 {
-    for (int i = 0; i <= FieldSizes::Width; i++) {
-        this -> floorLine << QPointF(i, equation(i));
+    if (ballAbsoluteXPosition < FieldSizes::BallXPosition) {
+        if (!this -> floorLine.isEmpty()) {this -> floorLine.remove(0, this -> floorLine.length());}
+        for (int i = 0; i <= FieldSizes::Width; i++) {
+            this -> floorLine << QPointF(i, equation(i));
+        }
+
+    } else {
+        this -> floorLine.remove(0, this -> floorLine.length());
+
+        int index = 0;
+        double i = ballAbsoluteXPosition - FieldSizes::BallXPosition;
+
+        while (i <= ballAbsoluteXPosition + FieldSizes::XSpaceRightOfBall) {
+            this -> floorLine << QPointF(index++, equation(i));
+            i++;
+        }
+
+//        qDebug() << "SHIFTED: P1:" <<this -> floorLine.at(200) << "SHIFTED: P2:" <<this -> floorLine.at(205);
+//        qDebug() << this -> floorLine.length();
     }
 
     emit floorLineChanged();
@@ -55,6 +72,14 @@ bool Floor::touched(Touchable *touchable)
     if (this == touchable) return false;
 
     return this -> floorLine.at(touchable -> getPos_x()).y() <= touchable -> getPos_y();
+}
+
+void Floor::resetFloorLine()
+{
+    this -> randomFactor = rand() % 100;
+    this -> randomFactor2 = rand() % 100;
+    this -> randomFactor3 = rand() % 100;
+    createFloorLine(0);
 }
 
 double Floor::equation(double x)

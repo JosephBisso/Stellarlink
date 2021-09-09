@@ -17,7 +17,9 @@ enum struct FloorType {
 enum FieldSizes {
     Height = 750,
     Width = 1000,
-    BallXPosition = 250,
+    BallXStartPosition = 100,
     BallYStartPosition = 400,
+    BallXPosition = 250,
+    XSpaceRightOfBall = Width - BallXPosition,
     FloorMittelPosition = 600
 };

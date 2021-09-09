@@ -4,11 +4,31 @@ StellarEngine::StellarEngine(Ball* ball, Floor* floor, QObject *parent) : QObjec
 {
     this -> ball = ball;
     this -> floor = floor;
+    this -> engineOn = false;
+}
+
+bool StellarEngine::getEngineOn() const
+{
+    return engineOn;
+}
+
+void StellarEngine::setEngineOn(bool newEngineOn)
+{
+    engineOn = newEngineOn;
 }
 
 void StellarEngine::pause()
 {
     this -> engineOn = false;
+}
+
+void StellarEngine::stop()
+{
+    this -> engineOn = false;
+    this -> time.restart();
+
+    this -> ball -> setPos_x(FieldSizes::BallXStartPosition);
+    this -> ball -> setPos_y(FieldSizes::BallYStartPosition);
 }
 
 
@@ -31,14 +51,25 @@ void StellarEngine::start()
 {
     this -> time.start();
     this -> engineOn = true;
-    this -> ballFallStep();
+    this -> step();
     qDebug() << "Starting StellarEngine";
 }
 
-void StellarEngine::ballFallStep()
+void StellarEngine::step()
 {
-    double startPosition = ball -> getPos_y();
+    double startPositionY = ball -> getPos_y();
+    double startPositionX = ball -> getPos_x();
+
+    ball -> setVelocities(5, 0);
+
     double zeit = ((double) (time.elapsed())) * 0.001;
-    this -> ball -> setPos_y(startPosition + 0.5 * M_G * pow(zeit, 2.0));
-    qDebug() << "time elapsed"<< zeit;
+
+    this -> ball -> setPos_y(startPositionY + 0.5 * M_G* pow(zeit, 2.0));
+    this -> ball -> setPos_x(this -> ball -> getVelocityX() * zeit + startPositionX);
+
+    this -> floor -> createFloorLine(this -> ball -> getPos_x());
+
+
+//    qDebug() << "time elapsed"<< zeit;
+//    qDebug() << "x = " << this -> ball -> getPos_x() /*<< "; y = " << this -> ball -> getPos_y()*/;
 }

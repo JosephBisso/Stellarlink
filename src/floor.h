@@ -28,7 +28,7 @@ public:
     void setFloorType(FloorType newFloorType);
 
     const QPolygonF &getFloorLine() const;
-    void createFloorLine();
+    void createFloorLine(double ballAbsoluteXPosition);
     int randomFactor;
     int randomFactor2;
     int randomFactor3;
@@ -40,6 +40,8 @@ signals:
 
 public slots:
     bool touched(Touchable* touchable);
+
+    void resetFloorLine();
 };
 
 #endif // FLOOR_H

@@ -6,6 +6,7 @@ Item {
         width: 1000; height: 750
         contextType: "2d"
 
+
         Path {
             id: myPath
             startX: 0; startY: canvasRoot.height;
@@ -20,12 +21,17 @@ Item {
         }
 
         onPaint: {
-            context.strokeStyle = "red";
+            context.strokeStyle = "blue";
             context.lineWidth = 5;
             context.path = myPath;
-            context.fillStyle = "blue"
+            context.fillStyle = "transparent"
             context.fill()
             context.stroke();
         }
+    }
+
+    function refresh() {
+        canvasRoot.context.reset()
+        canvasRoot.requestPaint()
     }
 }

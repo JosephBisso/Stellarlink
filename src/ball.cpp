@@ -5,7 +5,7 @@ Ball::Ball(double radius, QObject *parent) : Touchable(parent)
 {
     this -> radius = radius;
     this -> setType(STElement::Ball);
-    this -> setPos_x(FieldSizes::BallXPosition);
+    this -> setPos_x(FieldSizes::BallXStartPosition);
     this -> setPos_y(FieldSizes::BallYStartPosition);
 }
 

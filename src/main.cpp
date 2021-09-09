@@ -5,8 +5,6 @@
 #include <QLocale>
 #include <QTranslator>
 
-#include <boost/numeric/odeint.hpp>
-
 #include "floor.h"
 #include "ball.h"
 #include "stellarengine.h"

@@ -9,6 +9,8 @@
 class StellarEngine : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool engineOn READ getEngineOn WRITE setEngineOn NOTIFY engineOnChanged)
+
 private:
     QPointer<Ball> ball;
     QPointer<Floor> floor;
@@ -26,14 +28,18 @@ public:
 
     QElapsedTimer getTime() const;
 
-signals:
+    bool getEngineOn() const;
+    void setEngineOn(bool newEngineOn);
 
+signals:
+    void engineOnChanged();
 
 public slots:
     void start();
     void pause();
+    void stop();
 
-    void ballFallStep();
+    void step();
 };
 
 #endif // STELLARENGINE_H

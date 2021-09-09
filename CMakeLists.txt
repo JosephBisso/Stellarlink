@@ -13,7 +13,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml gui LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml gui LinguistTools REQUIRED)
-find_package(Boost 1.74.0)
 
 set(TS_FILES Stellarlink_en_DE.ts)
 
@@ -61,7 +60,6 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-include_directories(${Boost_INCLUDE_DIRS})
 include_directories(src qml)
 
 target_compile_definitions(Stellarlink
@@ -71,8 +69,6 @@ target_link_libraries(Stellarlink
 
 target_include_directories(Stellarlink PUBLIC
                           "${PROJECT_BINARY_DIR}"
-                          "${PROJECT_SOURCE_DIR}/lib/odeint-v2/include"
-                          ${Boost_LIBRAIRIES}
                           )
 
 set_target_properties(Stellarlink PROPERTIES

@@ -1,5 +1,29 @@
 #include "touchable.h"
 
+double Touchable::getVelocityY() const
+{
+    return velocityY;
+}
+
+void Touchable::setVelocityY(double newVelocityY)
+{
+    velocityY = newVelocityY;
+}
+
+void Touchable::setVelocities(double velocityX, double velocityY)
+{
+    this -> velocityX = velocityX;
+    this -> velocityY = velocityY;
+}
+
+Touchable::Touchable(QObject *parent) : QObject(parent)
+{
+    this -> pos_x = 0;
+    this -> pos_y = 0;
+    this -> velocityX = 0;
+    this -> velocityY = 0;
+}
+
 STElement Touchable::getType() const
 {
     return type;
@@ -20,12 +44,6 @@ void Touchable::setMasse(double newMasse)
     masse = newMasse;
 }
 
-Touchable::Touchable(QObject *parent) : QObject(parent)
-{
-    this -> pos_x = 0;
-    this -> pos_y = 0;
-    this -> velocity = 0;
-}
 
 void Touchable::setPos_x(double newPos_x)
 {
@@ -51,16 +69,16 @@ void Touchable::setPos_y(double newPos_y)
     emit pos_yChanged();
 }
 
-double Touchable::getVelocity() const
+double Touchable::getVelocityX() const
 {
-    return velocity;
+    return velocityX;
 }
 
-void Touchable::setVelocity(double newVelocity)
+void Touchable::setVelocityX(double newVelocity)
 {
-    velocity = newVelocity;
+    velocityX = newVelocity;
 
-    emit velocityChanged();
+    emit velocityXChanged();
 }
 
 void Touchable::move(double dx, double dy)

@@ -7,6 +7,8 @@ Window {
     height: 750
     maximumWidth: width
     maximumHeight: height
+    minimumHeight: maximumHeight
+    minimumWidth: maximumWidth
     visible: true
     title: qsTr("StellarLINK")
 
