@@ -6,6 +6,7 @@
 #include <qqml.h>
 #include <QPolygonF>
 #include <QDebug>
+#include <QMap>
 
 #include "STElement.cpp"
 
@@ -28,7 +29,7 @@ private:
 public:
     explicit Touchable(QObject *parent = nullptr);
 
-//    virtual void equation() = 0;
+//    virtual void equation(double d = 0) = 0;
 
     void setPos_x(double newPos_x);
     double getPos_x() const;

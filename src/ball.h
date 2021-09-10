@@ -17,12 +17,17 @@ private:
     double fuelle;
     double health;
 
+    QMap<Konstante, double> konstante;
+
 public:
     explicit Ball(double radius, QObject *parent = nullptr);
 
     bool hit(double health);
 
     void equation();
+    double yHomogen(double time);
+    double yPartikular(double dudx, double u);
+    double gradientY(double time);
 
     double getRadius() const;
     void setRadius(double newRadius);
@@ -32,6 +37,10 @@ public:
 
     double getHealth() const;
     void setHealth(double newHealth);
+
+    void initKonstante();
+    void defineKonstante(double feder, double l0, double daempfer);
+    double getL0() const;
 
 signals:
     void radiusChanged();

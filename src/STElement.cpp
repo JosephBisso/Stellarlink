@@ -23,3 +23,21 @@ enum FieldSizes {
     XSpaceRightOfBall = Width - BallXPosition,
     FloorMittelPosition = 600
 };
+
+enum Konstante {
+    Feder,
+    L0,
+    Daempfer,
+    Delta,
+    Lambda1,
+    Lambda2,
+    C1,
+    C2,
+    C3
+};
+
+enum LevelParameter {
+    FloatingFrom = 12,
+    MaxVelocity_1 = 15,
+    MaxFallingVelocity_1 = MaxVelocity_1 * 2 / 3
+};

@@ -60,16 +60,45 @@ void StellarEngine::step()
     double startPositionY = ball -> getPos_y();
     double startPositionX = ball -> getPos_x();
 
-    ball -> setVelocities(5, 0);
-
     double zeit = ((double) (time.elapsed())) * 0.001;
 
-    this -> ball -> setPos_y(startPositionY + 0.5 * M_G* pow(zeit, 2.0));
-    this -> ball -> setPos_x(this -> ball -> getVelocityX() * zeit + startPositionX);
+
+    if (this -> floor -> equation(startPositionX) - startPositionY > LevelParameter::FloatingFrom) {
+//        qDebug() << "floating";
+//        qDebug() << "x = " << startPositionX << "; y = " << startPositionY << "; boden = " << this -> floor -> equation(startPositionX);
+        if (M_G * pow(zeit, 20) < LevelParameter::MaxFallingVelocity_1) {
+            this -> ball -> setPos_y(0.5 * M_G * pow(zeit, 2.0) + startPositionY);
+
+        } else {
+            this -> ball -> setPos_y(0.5 * LevelParameter::MaxFallingVelocity_1 + startPositionY);
+        }
+
+    } else {
+//        qDebug() << "ground";
+//        qDebug() << "x = " << startPositionX << "; y = " << startPositionY;
+        double dudx = (this -> floor -> equation(startPositionX) - this -> floor -> equation(startPositionX - 0.25) ) / 0.25;
+        this -> ball -> setPos_y(this -> ball -> yHomogen(zeit) + this -> ball -> yPartikular(dudx, this -> floor -> equation(startPositionX)));
+    }
+
+    qDebug() << "velocity gradient";
+    qDebug() << this -> ball -> gradientY(zeit) << "for x = " << startPositionX;
 
     this -> floor -> createFloorLine(this -> ball -> getPos_x());
 
+    if (this -> ball -> getVelocityX() * zeit < LevelParameter::MaxVelocity_1) {
+        this -> ball -> setPos_x(this -> ball -> getVelocityX() * zeit + startPositionX);
+
+    } else {
+        this -> ball -> setPos_x(LevelParameter::MaxVelocity_1 + startPositionX);
+    }
+
+    if (ball -> getPos_y() < 0) {
+         this -> ball -> setPos_y(- 2 * this -> ball -> getRadius());
+    } else if (ball -> getPos_y() + this -> ball -> getRadius() >= this -> floor -> equation(this -> ball -> getPos_x())) {
+        this -> ball -> setPos_y(this -> floor -> equation(this -> ball -> getPos_x()) - this -> ball -> getRadius());
+    }
+
 
 //    qDebug() << "time elapsed"<< zeit;
-//    qDebug() << "x = " << this -> ball -> getPos_x() /*<< "; y = " << this -> ball -> getPos_y()*/;
+//    qDebug() << "ballY = " << startPositionY << "; boden = " << this -> floor -> equation(startPositionX);
 }

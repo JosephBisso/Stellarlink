@@ -8,20 +8,21 @@ Item {
     Keys.onEnterPressed: {
         console.log("Enter pressed")
         if (!stellarEngine.engineOn) {
+            console.log("Start")
             stellarEngine.start()
             runner.start()
         }
     }
 
     Keys.onSpacePressed: {
-        console.log("Space pressed")
+        console.log("Paused")
         stellarEngine.pause()
         mainFloor.refresh()
         runner.stop()
     }
 
     Keys.onBacktabPressed: {
-        console.log("Backtab pressed")
+        console.log("New Start")
         stellarEngine.stop()
         floorLogik.resetFloorLine()
         mainFloor.refresh()
