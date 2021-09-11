@@ -7,8 +7,55 @@ Ball::Ball(double radius, QObject *parent) : Touchable(parent)
     this -> setPos_x(FieldSizes::BallXStartPosition);
     this -> setPos_y(FieldSizes::BallYStartPosition);
     this -> setMasse(2);
-    this -> setVelocities(LevelParameter::BallMovingVelocity, LevelParameter::MaxVelocity_1);
+    this -> setVelocities(LevelParameter::BallMovingVelocity, 0);
     initKonstante();
+    resetState();
+    trail();
+    qDebug() << "konstruktor";
+}
+
+const QPolygonF &Ball::getBallPath() const
+{
+    return ballPath;
+}
+
+void Ball::setBallPath(const QPolygonF &newBallPath)
+{
+    ballPath = newBallPath;
+
+    emit ballPathChanged();
+}
+
+void Ball::resetBallPath()
+{
+    if (!this -> ballPath.isEmpty()) {this -> ballPath.remove(0, this -> ballPath.length());}
+}
+
+void Ball::trail()
+{
+    double x = getPos_x() < 250 ? getPos_x() : 250;
+    if (this -> ballPath.length() > 0) {this -> ballPath.translate(-getVelocityX(), 0);}
+    this -> ballPath << QPointF(x, getPos_y() - 0.5 * getRadius());
+    while(this -> ballPath.first().x() < 0) {this->ballPath.removeFirst();}
+}
+
+void Ball::setBallLocation(BallLocation newBallLocation)
+{
+    ballLocation = newBallLocation;
+}
+
+bool Ball::isLaunching()
+{
+    return this -> ballLocation == BallLocation::Launching;
+}
+
+bool Ball::isFalling()
+{
+    return this -> ballLocation == BallLocation::Falling;
+}
+bool Ball::isOnGround()
+{
+    return this -> ballLocation == BallLocation::Ground;
 }
 
 void Ball::equation()
@@ -19,7 +66,7 @@ void Ball::equation()
     konstante[Konstante::Lambda2] = (konstante[Konstante::Daempfer] + sqrt(konstante[Konstante::Delta])) / (2 * getMasse());
 
     if (konstante[Konstante::Delta] != 0) {
-        konstante[Konstante::C1] = (konstante[Konstante::Lambda2] * FieldSizes::BallYStartPosition) / (konstante[Konstante::Lambda2] - konstante[Konstante::Lambda1]);
+        konstante[Konstante::C1] = (konstante[Konstante::Lambda2] * FieldSizes::BallYStartPosition / 4) / (konstante[Konstante::Lambda2] - konstante[Konstante::Lambda1]);
         konstante[Konstante::C2] = FieldSizes::BallYStartPosition - konstante[Konstante::C1];
     } else {
         konstante[Konstante::C0] = FieldSizes::BallYStartPosition;
@@ -101,6 +148,43 @@ void Ball::defineKonstante(double feder, double l0, double daempfer)
 double Ball::getL0() const
 {
     return  this -> konstante[Konstante::L0];
+}
+
+void Ball::setBallState(BallStates newBallState)
+{
+    ballState = newBallState;
+
+    emit statesChanged();
+}
+
+BallStates Ball::getBallState() const
+{
+    return this -> ballState;
+}
+
+void Ball::resetState()
+{
+    ballState = BallStates::None;
+}
+
+bool Ball::isAccelerating()
+{
+    return this -> ballState == BallStates::Accelerating;
+}
+
+bool Ball::isDecelerating()
+{
+    return this -> ballState == BallStates::Decelerating;
+}
+
+bool Ball::isSticking()
+{
+    return this -> ballState == BallStates::Sticking;
+}
+
+bool Ball::moveByItself()
+{
+    return this -> ballState == BallStates::None;
 }
 
 bool Ball::touched(Touchable *touchable)

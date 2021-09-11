@@ -37,8 +37,25 @@ enum Konstante {
 };
 
 enum LevelParameter {
-    BallMovingVelocity = 5,
+    BallAcceleration = 2,
+    BallDecelerationX = BallAcceleration * 6/5,
+    BallDecelerationY = BallAcceleration * 2/3,
+    BallFreeDeceleration = 1,
+    BallMovingVelocity = 3,
     FloatingFrom = 15,
-    MaxVelocity_1 = 25,
-    MaxFallingVelocity_1 = MaxVelocity_1 * 3 / 5
+    MaxVelocity = 25,
+    MaxFallingVelocity = MaxVelocity * 2 / 5
+};
+
+enum struct BallStates {
+    None,
+    Accelerating,
+    Decelerating,
+    Sticking
+};
+
+enum struct BallLocation {
+    Launching,
+    Falling,
+    Ground
 };

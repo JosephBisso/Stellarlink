@@ -15,17 +15,17 @@ private:
     QPointer<Ball> ball;
     QPointer<Floor> floor;
 
-    QElapsedTimer time;
+    QElapsedTimer globalTime;
     QElapsedTimer airTime;
+    QElapsedTimer stateTime;
 
     bool engineOn;
 
-    bool launching;
     double launchingTangent;
-    bool ballFloating;
 
-    bool accelerating;
-    bool haftend;
+    void resetLauchingTangent();
+
+    void resetStates();
 
 public:
     explicit StellarEngine(Ball* ball, Floor* floor, QObject *parent = nullptr);
@@ -40,9 +40,6 @@ public:
     bool getEngineOn() const;
     void setEngineOn(bool newEngineOn);
 
-    void resetLauchingTangent();
-
-
 signals:
     void engineOnChanged();
 
@@ -56,7 +53,8 @@ public slots:
 
     void accelerate();
     void brake();
-    void haften();
+    void stick();
+    void freeBall();
 };
 
 #endif // STELLARENGINE_H

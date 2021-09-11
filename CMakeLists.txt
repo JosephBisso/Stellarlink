@@ -14,6 +14,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml gui LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml gui LinguistTools REQUIRED)
 
+FIND_PACKAGE(Qt5QuickCompiler QUIET)
+IF(Qt5QuickCompiler_FOUND AND NOT CMAKE_BUILD_TYPE MATCHES Debug AND NOT CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+  QTQUICK_COMPILER_ADD_RESOURCES(RESOURCES qml.qrc)
+ELSE()
+  SET(RESOURCES qml.qrc)
+ENDIF()
+
 set(TS_FILES Stellarlink_en_DE.ts)
 
 set(PROJECT_SOURCES
@@ -37,6 +44,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Stellarlink
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ${RESOURCES}
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Stellarlink APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -64,6 +72,7 @@ include_directories(src qml)
 
 target_compile_definitions(Stellarlink
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
 target_link_libraries(Stellarlink
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Qml)
 

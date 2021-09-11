@@ -38,6 +38,8 @@ int main(int argc, char *argv[])
     engine.rootContext() -> setContextProperty("stellarEngine", stellarEngine);
     engine.rootContext() -> setContextProperty("floorLogik", floorLogik);
 
+//    qmlRegisterType<Ball>("stellarLink.ball", 1,0, "BallLogikS");
+
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

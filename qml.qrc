@@ -5,5 +5,6 @@
         <file>qml/Field.qml</file>
         <file>qml/Ball.qml</file>
         <file>qml/Floor.qml</file>
+        <file>qml/BallTrail.qml</file>
     </qresource>
 </RCC>

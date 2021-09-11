@@ -14,6 +14,8 @@ Rectangle {
     }
     radius: width * 0.5
 
+    property color trailColor: accelerationGlow.color
+
     Rectangle {
         id: accelerationGlow
         x: -(width - ball.width) / 2
@@ -41,31 +43,37 @@ Rectangle {
         states: [
                 State {
                     name: "Default"
-                    PropertyChanges { target: accelerationGlow; color: ball.color; opacity: 0}
+                    PropertyChanges { target: accelerationGlow; color: "transparent"; opacity: 0}
                 },
                 State {
                     name: "Accelerate"
-                    PropertyChanges { target: accelerationGlow; color: "darkred"; opacity: 100}
+                    PropertyChanges { target: accelerationGlow; color: "darkred"; opacity: 75}
                 },
                 State {
                     name: "Decelerate"
-                    PropertyChanges { target: accelerationGlow; color: "lightsteelblue"; opacity: 100}
+                    PropertyChanges { target: accelerationGlow; color: "lightsteelblue"; opacity: 80}
                 },
                 State {
                     name: "Stick"
-                    PropertyChanges { target: accelerationGlow; color: "darkblue"; opacity: 100}
+                    PropertyChanges { target: accelerationGlow; color: "darkblue"; opacity: 50}
                 }
             ]
 
         transitions: [
             Transition {
                 to: "Accelerate"
-                ColorAnimation {duration: 6000}
+                ColorAnimation {duration: 7000}
 
             },
 
             Transition {
                 to: "Stick"
+                ColorAnimation {duration: 750}
+
+            },
+
+            Transition {
+                to: "Decelerate"
                 ColorAnimation {duration: 750}
 
             },
@@ -86,10 +94,11 @@ Rectangle {
 
     function resetState() {
         accelerationGlow.state = "Default"
+        accelerationGlow.color = "transparent"
     }
 
     function decelerate() {
-        accelerationGlow.state = "decelerate"
+        accelerationGlow.state = "Decelerate"
     }
 
     function stick() {

@@ -11,6 +11,8 @@ class Ball : public Touchable
     Q_PROPERTY(double radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
     Q_PROPERTY(double fuelle READ getFuelle WRITE setFuelle NOTIFY fuelleChanged)
     Q_PROPERTY(double health READ getHealth WRITE setHealth NOTIFY healthChanged)
+    Q_PROPERTY(QPolygonF ballPath READ getBallPath NOTIFY ballPathChanged)
+    Q_PROPERTY(BallStates ballState READ getBallState NOTIFY statesChanged)
 
 private:
     double radius;
@@ -18,6 +20,10 @@ private:
     double health;
 
     QMap<Konstante, double> konstante;
+    QPolygonF ballPath;
+
+    BallStates ballState;
+    BallLocation ballLocation;
 
 public:
     explicit Ball(double radius, QObject *parent = nullptr);
@@ -37,9 +43,28 @@ public:
     double getHealth() const;
     void setHealth(double newHealth);
 
+    const QPolygonF &getBallPath() const;
+    void setBallPath(const QPolygonF &newBallPath);
+    void resetBallPath();
+    void trail();
+
     void initKonstante();
     void defineKonstante(double feder, double l0, double daempfer);
     double getL0() const;
+
+    bool isAccelerating();
+    bool isDecelerating();
+    bool isSticking();
+    bool moveByItself();
+    void setBallState(BallStates newBallState);
+    BallStates getBallState() const;
+    void resetState();
+
+    void setBallLocation(BallLocation newBallLocation);
+    bool isLaunching();
+    bool isFalling();
+    bool isOnGround();
+
 
 signals:
     void radiusChanged();
@@ -47,6 +72,10 @@ signals:
     void fuelleChanged();
 
     void healthChanged();
+
+    void ballPathChanged();
+
+    int statesChanged();
 
 public slots:
     bool touched(Touchable* touchable);

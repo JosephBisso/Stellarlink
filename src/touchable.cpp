@@ -12,8 +12,8 @@ void Touchable::setVelocityY(double newVelocityY)
 
 void Touchable::setVelocities(double velocityX, double velocityY)
 {
-    this -> velocityX = velocityX;
-    this -> velocityY = velocityY;
+    setVelocityX( velocityX);
+    setVelocityY( velocityY);
 }
 
 Touchable::Touchable(QObject *parent) : QObject(parent)
