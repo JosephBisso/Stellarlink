@@ -31,13 +31,14 @@ enum Konstante {
     Delta,
     Lambda1,
     Lambda2,
+    C0,
     C1,
-    C2,
-    C3
+    C2
 };
 
 enum LevelParameter {
-    FloatingFrom = 12,
-    MaxVelocity_1 = 15,
-    MaxFallingVelocity_1 = MaxVelocity_1 * 2 / 3
+    BallMovingVelocity = 5,
+    FloatingFrom = 15,
+    MaxVelocity_1 = 25,
+    MaxFallingVelocity_1 = MaxVelocity_1 * 3 / 5
 };

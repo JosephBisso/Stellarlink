@@ -6,37 +6,40 @@ Ball::Ball(double radius, QObject *parent) : Touchable(parent)
     this -> setType(STElement::Ball);
     this -> setPos_x(FieldSizes::BallXStartPosition);
     this -> setPos_y(FieldSizes::BallYStartPosition);
-    this -> setMasse(radius * 0.1225);
-    this -> setVelocities(5, 0);
+    this -> setMasse(2);
+    this -> setVelocities(LevelParameter::BallMovingVelocity, LevelParameter::MaxVelocity_1);
     initKonstante();
 }
 
 void Ball::equation()
 {
-    konstante[Konstante::Delta] = pow(konstante[Konstante::Daempfer], 2.0) + 4 * getMasse() * konstante[Konstante::Feder];
+    konstante[Konstante::Delta] = pow(konstante[Konstante::Daempfer], 2.0) - 4 * getMasse() * konstante[Konstante::Feder];
 
-    konstante[Konstante::Lambda1] = (- konstante[Konstante::Daempfer] - sqrt(konstante[Konstante::Delta])) / (2 * getMasse());
-    konstante[Konstante::Lambda2] = (- konstante[Konstante::Daempfer] + sqrt(konstante[Konstante::Delta])) / (2 * getMasse());
+    konstante[Konstante::Lambda1] = (konstante[Konstante::Daempfer] - sqrt(konstante[Konstante::Delta])) / (2 * getMasse());
+    konstante[Konstante::Lambda2] = (konstante[Konstante::Daempfer] + sqrt(konstante[Konstante::Delta])) / (2 * getMasse());
 
-    konstante[Konstante::C1] = (konstante[Konstante::Lambda2] * FieldSizes::BallYStartPosition) / (konstante[Konstante::Lambda2] - konstante[Konstante::Lambda1]);
-    konstante[Konstante::C2] = FieldSizes::BallYStartPosition - konstante[Konstante::C1];
-
+    if (konstante[Konstante::Delta] != 0) {
+        konstante[Konstante::C1] = (konstante[Konstante::Lambda2] * FieldSizes::BallYStartPosition) / (konstante[Konstante::Lambda2] - konstante[Konstante::Lambda1]);
+        konstante[Konstante::C2] = FieldSizes::BallYStartPosition - konstante[Konstante::C1];
+    } else {
+        konstante[Konstante::C0] = FieldSizes::BallYStartPosition;
+    }
 }
 
 double Ball::yHomogen(double time)
 {
-    return konstante[Konstante::C1] * exp(-konstante[Konstante::Lambda1] * time) + konstante[Konstante::C2] * exp(-konstante[Konstante::Lambda2] * time);
+//    qDebug() << "yH0" <<konstante[Konstante::C0] * exp(-konstante[Konstante::Lambda1] * time);
+//    qDebug() << "yH" <<konstante[Konstante::C1] * exp(-konstante[Konstante::Lambda1] * time) + konstante[Konstante::C2] * exp(-konstante[Konstante::Lambda2] * time);
+    return konstante[Konstante::Delta] != 0.0 ?
+            konstante[Konstante::C1] * exp(-konstante[Konstante::Lambda1] * time) + konstante[Konstante::C2] * exp(-konstante[Konstante::Lambda2] * time)
+            : konstante[Konstante::C0] * exp(-konstante[Konstante::Lambda1] * time);
 }
 
 double Ball::yPartikular(double dudx, double u)
 {
-    return (getMasse() * M_G + konstante[Konstante::Daempfer] * dudx + konstante[Konstante::Feder] * (konstante[Konstante::L0] - u)) / (- konstante[Konstante::Feder]);
-}
-
-double Ball::gradientY(double time)
-{
-    return -konstante[Konstante::Lambda1] * konstante[Konstante::C1] * exp(-konstante[Konstante::Lambda1] * time) - konstante[Konstante::Lambda2] * konstante[Konstante::C2] * exp(-konstante[Konstante::Lambda2] * time);
-}
+//     qDebug() << "yP" <<(-getMasse() * M_G + konstante[Konstante::Daempfer] * dudx + konstante[Konstante::Feder] * (konstante[Konstante::L0] - u)) / (-konstante[Konstante::Feder]);
+    return (-getMasse() * M_G + konstante[Konstante::Daempfer] * dudx + konstante[Konstante::Feder] * (konstante[Konstante::L0] - u)) / (-konstante[Konstante::Feder]);
+ }
 
 double Ball::getRadius() const
 {
@@ -82,9 +85,9 @@ void Ball::initKonstante()
     this -> konstante[Konstante::Delta] = 0;
     this -> konstante[Konstante::Lambda1] = 0;
     this -> konstante[Konstante::Lambda2] = 0;
+    this -> konstante[Konstante::C0] = 0;
     this -> konstante[Konstante::C1] = 0;
     this -> konstante[Konstante::C2] = 0;
-    this -> konstante[Konstante::C3] = 0;
 }
 
 void Ball::defineKonstante(double feder, double l0, double daempfer)

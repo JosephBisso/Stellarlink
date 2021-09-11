@@ -1,4 +1,4 @@
-#ifndef STELLARENGINE_H
+﻿#ifndef STELLARENGINE_H
 #define STELLARENGINE_H
 
 #include <QObject>
@@ -16,8 +16,16 @@ private:
     QPointer<Floor> floor;
 
     QElapsedTimer time;
+    QElapsedTimer airTime;
 
     bool engineOn;
+
+    bool launching;
+    double launchingTangent;
+    bool ballFloating;
+
+    bool accelerating;
+    bool haftend;
 
 public:
     explicit StellarEngine(Ball* ball, Floor* floor, QObject *parent = nullptr);
@@ -26,10 +34,14 @@ public:
 
     QPointer<Floor> getFloor() const;
 
-    QElapsedTimer getTime() const;
+    void restartTime();
+    void restartAirTime();
 
     bool getEngineOn() const;
     void setEngineOn(bool newEngineOn);
+
+    void resetLauchingTangent();
+
 
 signals:
     void engineOnChanged();
@@ -39,7 +51,12 @@ public slots:
     void pause();
     void stop();
 
+    bool touched(Touchable* toubchable);
     void step();
+
+    void accelerate();
+    void brake();
+    void haften();
 };
 
 #endif // STELLARENGINE_H

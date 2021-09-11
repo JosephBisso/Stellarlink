@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    QPointer<Ball> ballLogik = new Ball(35);
-    ballLogik -> defineKonstante(10, 1, 1);
+    QPointer<Ball> ballLogik = new Ball(25);
+    ballLogik -> defineKonstante(28, 10, 15);
     QPointer<Floor> floorLogik = new Floor(0);
     QPointer<StellarEngine> stellarEngine = new StellarEngine(ballLogik, floorLogik);
 

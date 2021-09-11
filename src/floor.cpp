@@ -84,5 +84,5 @@ void Floor::resetFloorLine()
 
 double Floor::equation(double x)
 {
-    return 40 * sin (0.00015 * this -> randomFactor3 * M_PI * x) + 40 * sin (0.0001 * this -> randomFactor2 * M_PI * x) + 40 * sin (this -> randomFactor * M_PI * 0.0002 * x) + FieldSizes::FloorMittelPosition;
+    return 20 * sin (0.00015 * this -> randomFactor3 * M_PI * x) + 20 * sin (0.0001 * this -> randomFactor2 * M_PI * x) + 20 * sin (this -> randomFactor * M_PI * 0.0002 * x) + FieldSizes::FloorMittelPosition;
 }

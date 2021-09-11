@@ -42,7 +42,6 @@ public:
 
     double getVelocityY() const;
     void setVelocityY(double newVelocityY);
-
     void setVelocities(double velocityX, double velocityY);
 
     STElement getType() const;

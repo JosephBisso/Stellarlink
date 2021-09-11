@@ -27,7 +27,6 @@ public:
     void equation();
     double yHomogen(double time);
     double yPartikular(double dudx, double u);
-    double gradientY(double time);
 
     double getRadius() const;
     void setRadius(double newRadius);
