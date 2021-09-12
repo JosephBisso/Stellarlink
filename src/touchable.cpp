@@ -16,6 +16,18 @@ void Touchable::setVelocities(double velocityX, double velocityY)
     setVelocityY( velocityY);
 }
 
+double Touchable::getHeigth() const
+{
+    return heigth;
+}
+
+void Touchable::setHeigth(double newHeigth)
+{
+    double converted = FieldSizes::FloorMittelPosition - newHeigth;
+    if (converted != heigth) {emit heigthChanged();}
+    heigth = converted;
+}
+
 Touchable::Touchable(QObject *parent) : QObject(parent)
 {
     this -> pos_x = 0;
@@ -66,6 +78,7 @@ void Touchable::setPos_y(double newPos_y)
 {
     pos_y = newPos_y;
 
+    setHeigth(newPos_y);
     emit pos_yChanged();
 }
 
@@ -76,9 +89,9 @@ double Touchable::getVelocityX() const
 
 void Touchable::setVelocityX(double newVelocity)
 {
+    if (velocityX != newVelocity) {emit velocityXChanged();}
     velocityX = newVelocity;
 
-    emit velocityXChanged();
 }
 
 void Touchable::move(double dx, double dy)

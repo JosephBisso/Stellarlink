@@ -2,6 +2,10 @@
 #define M_G (9.807)
 #endif
 
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
+
 enum struct STElement {
     Ball,
     Floor,
@@ -38,13 +42,14 @@ enum Konstante {
 
 enum LevelParameter {
     BallAcceleration = 2,
-    BallDecelerationX = BallAcceleration * 6/5,
+     BallDecelerationX = BallAcceleration * 2/3,
     BallDecelerationY = BallAcceleration * 2/3,
     BallFreeDeceleration = 1,
     BallMovingVelocity = 3,
     FloatingFrom = 15,
     MaxVelocity = 25,
-    MaxFallingVelocity = MaxVelocity * 2 / 5
+    MaxFallingVelocity = MaxVelocity * 2 / 5,
+    HitBy = 10
 };
 
 enum struct BallStates {

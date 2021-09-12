@@ -15,6 +15,28 @@ Rectangle {
     radius: width * 0.5
 
     property color trailColor: accelerationGlow.color
+    property double actualSpeed: ballLogik.velocityX
+    property double maxSpeed: stellarEngine.maxVelocity
+    property double actualHeigth: ballLogik.heigth
+    property double maxHeigth: stellarEngine.maxHeigth
+    property double health: ballLogik.health
+
+    Rectangle {
+        id: kreuzMitte
+        anchors.centerIn: parent
+        z: 1
+        height: 25
+        width: 2
+        color: "black"
+
+        RotationAnimation on rotation {
+            id: rolling
+            running: ball.actualSpeed > 3
+            loops: Animation.Infinite
+            from: 0
+            to: 360
+        }
+    }
 
     Rectangle {
         id: accelerationGlow
@@ -62,7 +84,7 @@ Rectangle {
         transitions: [
             Transition {
                 to: "Accelerate"
-                ColorAnimation {duration: 7000}
+                ColorAnimation {duration: 1000}
 
             },
 
@@ -81,7 +103,7 @@ Rectangle {
             Transition {
                 to: "Default"
                 NumberAnimation {duration: 750}
-                ColorAnimation {duration: 1500}
+                ColorAnimation {duration: 1000}
 
             }
         ]

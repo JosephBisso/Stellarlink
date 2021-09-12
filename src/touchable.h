@@ -17,12 +17,14 @@ class Touchable : public QObject
     Q_PROPERTY(double pos_y READ getPos_y WRITE setPos_y NOTIFY pos_yChanged)
     Q_PROPERTY(double velocityX READ getVelocityX WRITE setVelocityX NOTIFY velocityXChanged)
     Q_PROPERTY(double velocityY READ getVelocityY WRITE setVelocityY NOTIFY velocityYChanged)
+    Q_PROPERTY(double heigth READ getHeigth WRITE setHeigth NOTIFY heigthChanged)
 
 private:
     double pos_x;
     double pos_y;
     double velocityX;
     double velocityY;
+    double heigth;
     double masse;
     STElement type;
 
@@ -50,6 +52,9 @@ public:
     double getMasse() const;
     void setMasse(double newMasse);
 
+    double getHeigth() const;
+    void setHeigth(double newHeigth);
+
 signals:
     void pos_xChanged();
 
@@ -57,6 +62,8 @@ signals:
 
     void velocityXChanged();
     void velocityYChanged();
+
+    void heigthChanged();
 
 public slots:
     void move(double dx, double dy);

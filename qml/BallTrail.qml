@@ -15,11 +15,11 @@ Item {
         onPaint: {
             polyline.path = ballLogik.ballPath;
             var gradient = context.createLinearGradient(0, 400, 300, 400);
-            gradient.addColorStop(0.4, Qt.hsla(trailColor.hslHue, trailColor.hslSaturation, trailColor.hslLightness, 0.05));
+            gradient.addColorStop(0.4, Qt.hsla(trailColor.hslHue, trailColor.hslSaturation, trailColor.hslLightness, 0.03));
             gradient.addColorStop(0.7, Qt.hsla(trailColor.hslHue, trailColor.hslSaturation, trailColor.hslLightness, 0.3));
             gradient.addColorStop(1, trailColor);
             context.strokeStyle = gradient;
-            context.lineWidth = ballLogik.radius * 2;
+            context.lineWidth = ballLogik.radius * 2 - 10;
             context.path = myPath2;
             context.stroke();
         }

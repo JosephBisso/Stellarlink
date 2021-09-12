@@ -5,7 +5,7 @@ StellarEngine::StellarEngine(Ball* ball, Floor* floor, QObject *parent) : QObjec
     this -> ball = ball;
     this -> floor = floor;
     this -> engineOn = false;
-    this -> launchingTangent = 0;
+    resetAll();
 }
 
 bool StellarEngine::getEngineOn() const
@@ -16,6 +16,28 @@ bool StellarEngine::getEngineOn() const
 void StellarEngine::setEngineOn(bool newEngineOn)
 {
     engineOn = newEngineOn;
+}
+
+double StellarEngine::getMaxVelocity() const
+{
+    return maxVelocity;
+}
+
+void StellarEngine::setMaxVelocity(double newMaxVelocity)
+{
+    maxVelocity = newMaxVelocity;
+    emit maxVelocityChanged();
+}
+
+double StellarEngine::getMaxHeigth() const
+{
+    return maxHeigth;
+}
+
+void StellarEngine::setMaxHeigth(double newMaxHeigth)
+{
+    maxHeigth = newMaxHeigth;
+    emit maxHeigthChanged();
 }
 
 void StellarEngine::resetLauchingTangent()
@@ -34,8 +56,7 @@ void StellarEngine::stop()
     this -> engineOn = false;
     this -> globalTime.restart();
 
-    this -> ball -> setPos_x(FieldSizes::BallXStartPosition);
-    this -> ball -> setPos_y(FieldSizes::BallYStartPosition);
+    resetAll();
 }
 
 bool StellarEngine::touched(Touchable *touchable)
@@ -73,17 +94,26 @@ void StellarEngine::resetStates()
     this -> ball -> resetState();
 }
 
+void StellarEngine::resetAll()
+{
+    this -> launchingTangent = 0;
+    this -> ball -> setPos_x(FieldSizes::BallXStartPosition);
+    this -> ball -> setPos_y(FieldSizes::BallYStartPosition);
+    this -> ball -> setVelocities(LevelParameter::BallMovingVelocity, LevelParameter::MaxVelocity);
+    this -> ball -> setBallLocation(BallLocation::Falling);
+    this -> ball -> setHealth(100);
+    setMaxVelocity(LevelParameter::MaxVelocity);
+    setMaxHeigth(this -> ball -> getHeigth());
+    resetStates();
+}
+
 void StellarEngine::start()
 {
     this -> globalTime.start();
     this -> airTime.start();
     this -> engineOn = true;
     this -> step();
-    this -> launchingTangent = 0;
-    this -> ball -> setVelocities(LevelParameter::BallMovingVelocity, LevelParameter::MaxVelocity);
-    this -> ball -> setBallLocation(BallLocation::Falling);
     qDebug() << "Starting StellarEngine";
-    resetStates();
 }
 
 void StellarEngine::step()
@@ -94,7 +124,7 @@ void StellarEngine::step()
     double zeit = ((double) (globalTime.elapsed())) * 0.001;
     double luftZeit = ((double) (airTime.elapsed())) * 0.001;
     double zustandZeit = ((double) (stateTime.elapsed())) * 0.001;
-    double dx = 0.125;
+    double dx = 0.25;
     double dudx = (this -> floor -> equation(startPositionX) - this -> floor -> equation(startPositionX + dx)) / dx;
 
     if (this -> ball -> isLaunching()) {
@@ -112,7 +142,7 @@ void StellarEngine::step()
 //             qDebug()<< "floating";
              this -> ball -> setBallLocation(BallLocation::Falling);
              if (ball -> getVelocityY() < LevelParameter::MaxFallingVelocity) {
-                 this -> ball -> setVelocityY(0.5 * M_G * pow(luftZeit, 2.0) + this -> ball -> getVelocityY());
+                 this -> ball -> setVelocityY(0.5 * M_G * pow(luftZeit + 0.4, 2.0) + this -> ball -> getVelocityY());
 
              } else {
                  this -> ball -> setVelocityY(LevelParameter::MaxFallingVelocity);
@@ -122,10 +152,15 @@ void StellarEngine::step()
         } else if (dudx > 0 && dudx > this -> launchingTangent && !this -> ball -> isLaunching()) {
             launchingTangent = dudx;
 
-        } else if (dudx > 0 && dudx < this -> launchingTangent && !this -> ball -> isLaunching()) {
+        } else if (dudx > 0 && dudx < this -> launchingTangent && !(this -> ball -> isLaunching() || this -> ball -> isDecelerating() || this -> ball -> isSticking())) {
             this -> ball -> setBallLocation(BallLocation::Launching);
 //            qDebug() << "dudx = "<<dudx;
             this -> ball -> setVelocityY(this -> ball -> getVelocityX() * this -> launchingTangent);
+            if(this -> launchingTangent > tan(30 * M_PI / 180) && !this -> ball -> isHighTanResistant()) {
+                this -> ball -> hit(this -> launchingTangent * LevelParameter::HitBy);
+            } else {
+                this -> ball -> setHighTanResistance(false);
+            }
             airTime.start();
         }
 
@@ -136,22 +171,21 @@ void StellarEngine::step()
 
             if (dudx < 0){
                 this -> ball -> setVelocityX (sqrt(pow(this -> ball -> getVelocityX(), 2.0) + 2 * M_G * dx * abs(dudx)) + 0.5);
-                this -> ball -> setBallState(BallStates::Accelerating);
+                this -> ball -> setHighTanResistance(true);
             }
         }
-
     }
-
 
     if (this -> ball -> isAccelerating()) {
         if (this -> ball -> getVelocityX() >= LevelParameter::MaxVelocity) {
             this -> ball -> setPos_x(this -> ball -> getVelocityX() + startPositionX);
+            if (this -> ball -> getVelocityX() > this -> maxVelocity) {setMaxVelocity(this -> ball ->getVelocityX());}
         } else if (this -> ball -> getVelocityX() < LevelParameter::MaxVelocity) {
             this -> ball -> setPos_x(this -> ball -> getVelocityX() + startPositionX);
             this -> ball -> setVelocityX( 0.5 * LevelParameter::BallAcceleration * pow(zeit, 2.0) + this -> ball -> getVelocityX());
         }
 
-    } else if (this -> ball -> isDecelerating() && !this -> ball -> isFalling() && !this -> ball -> isLaunching()) {
+    } else if (this -> ball -> isDecelerating() && !this -> ball -> isLaunching()) {
         double  brakingSpeed = this -> ball -> getVelocityX() - LevelParameter::BallDecelerationX * zustandZeit;
         if ( brakingSpeed < 0) {
             brakingSpeed = 0;
@@ -160,24 +194,18 @@ void StellarEngine::step()
         this -> ball -> setPos_x(brakingSpeed + startPositionX);
         this -> ball -> setVelocityX(brakingSpeed);
 
-    } else if (this -> ball -> isDecelerating() && (this -> ball -> isFalling() || this -> ball -> isLaunching())) {
+    } else if (this -> ball -> isDecelerating() && this -> ball -> isLaunching()) {
          this -> ball -> setPos_x(this -> ball -> getVelocityX() + startPositionX);
 
     } else if (this -> ball -> moveByItself() && !this -> ball -> isFalling() && !this -> ball -> isLaunching()) {
-        double slowingSpeed = 0;
+        double slowingSpeed = this -> ball -> getVelocityX();
+        if (this -> ball -> getVelocityX() >= LevelParameter::BallMovingVelocity) {
+                 slowingSpeed =  (this -> ball -> getVelocityX() - LevelParameter::BallFreeDeceleration);
+         }
         if (dudx > 0) {
             bool goingUp = pow(this -> ball -> getVelocityX(), 2.0) - 2 * M_G * dx * abs(dudx) >= 0;
             if (goingUp) {slowingSpeed = sqrt(pow(this -> ball -> getVelocityX(), 2.0) - 2 * M_G * dx * abs(dudx));}
             else {slowingSpeed = -sqrt(pow(this -> ball -> getVelocityX(), 2.0) + 2 * M_G * dx * abs(dudx));}
-
-        } else if (dudx < 0){
-            slowingSpeed = sqrt(pow(this -> ball -> getVelocityX(), 2.0) + 2 * M_G * dx * abs(dudx));
-            if (slowingSpeed > LevelParameter::MaxVelocity) {
-                slowingSpeed = LevelParameter::MaxVelocity;
-            }
-
-        } else {
-            // GAME OVER
         }
         this -> ball -> setPos_x(slowingSpeed + startPositionX);
         this -> ball -> setVelocityX(slowingSpeed);
@@ -201,9 +229,10 @@ void StellarEngine::step()
 
     this -> floor -> createFloorLine(this -> ball -> getPos_x());
     this -> ball -> trail();
+    if (this -> ball -> getHeigth() > maxHeigth) {setMaxHeigth(this -> ball -> getHeigth());}
 
 //    qDebug() << "x =" << ball -> getPos_x() << "; y =" << ball -> getPos_y();
-    qDebug()<< "V_x = " <<this -> ball -> getVelocityX() << "; V_y = s" << this -> ball -> getVelocityY();
+//    qDebug()<< "V_x = " <<this -> ball -> getVelocityX() << "; V_y = s" << this -> ball -> getVelocityY();
 }
 
 void StellarEngine::accelerate()

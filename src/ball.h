@@ -25,6 +25,8 @@ private:
     BallStates ballState;
     BallLocation ballLocation;
 
+    bool highTanResistant;
+
 public:
     explicit Ball(double radius, QObject *parent = nullptr);
 
@@ -45,11 +47,9 @@ public:
 
     const QPolygonF &getBallPath() const;
     void setBallPath(const QPolygonF &newBallPath);
-    void resetBallPath();
     void trail();
 
     void initKonstante();
-    void defineKonstante(double feder, double l0, double daempfer);
     double getL0() const;
 
     bool isAccelerating();
@@ -65,6 +65,8 @@ public:
     bool isFalling();
     bool isOnGround();
 
+    bool isHighTanResistant();
+    void setHighTanResistance(bool resistant);
 
 signals:
     void radiusChanged();
@@ -80,6 +82,9 @@ signals:
 public slots:
     bool touched(Touchable* touchable);
 
+    void defineKonstante(double feder, double l0, double daempfer);
+
+    void resetBallPath();
 };
 
 #endif // BALL_H

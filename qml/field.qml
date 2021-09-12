@@ -1,5 +1,4 @@
 import QtQuick 2.15
-//import stellarLink.ball 1.0
 
 Item {
     id: fielRoot
@@ -12,38 +11,36 @@ Item {
                 switch (event.key) {
                     case Qt.Key_Enter:
                         if (!stellarEngine.engineOn) {
-                            console.log("Start")
                             stellarEngine.start()
                             runner.start()
                         }
                         break
                     case Qt.Key_Space:
-                        console.log("Paused")
                         stellarEngine.pause()
                         mainFloor.refresh()
                         ball1.resetState()
                         runner.stop()
                         break
                     case Qt.Key_Backtab:
-                        console.log("New Start")
                         stellarEngine.stop()
+                        ballLogik.resetBallPath()
+                        ballTrail1.refresh()
+                        ball1.resetState()
                         floorLogik.resetFloorLine()
                         mainFloor.refresh()
-                        ball1.resetState()
+                        board.reset()
+                        runningStats.reset()
                         runner.stop()
                         break
                     case Qt.Key_Right:
-                        console.log("accelerate")
                         stellarEngine.accelerate()
                         ball1.accelerate()
                         break
                     case Qt.Key_Down:
-                        console.log("Haft")
                         stellarEngine.stick()
                         ball1.stick()
                         break
                     case Qt.Key_Left:
-                        console.log("deccelerate")
                         ball1.decelerate()
                         stellarEngine.brake()
                         break
@@ -55,7 +52,6 @@ Item {
     Keys.onReleased: (event) => {
         if (!event.isAutoRepeat) {
             if (event.key === Qt.Key_Down || event.key === Qt.Key_Right || event.key === Qt.Key_Left) {
-                console.log("Reseting ball state")
                 ball1.resetState()
                 stellarEngine.freeBall()
                 event.accepted = true;
@@ -76,7 +72,7 @@ Item {
 
     LWXdevGrid {
         id: lwxDevGrid
-        z: -2
+        z: -3
         x_interval: 25
         y_interval: 25
     }
@@ -84,16 +80,49 @@ Item {
     Ball {
         id: ball1
 
+        onActualSpeedChanged: board.updateSpeed(ball1.actualSpeed)
+        onMaxSpeedChanged: {
+            runningStats.updateMaxSpeed(ball1.maxSpeed)
+            board.updateMaxSpeed(ball1.maxSpeed)
+        }
+
+        onActualHeigthChanged: board.updateHeigth(ball1.actualHeigth)
+        onMaxHeigthChanged: {
+            runningStats.updateMaxHeigth(ball1.maxHeigth)
+            board.updateMaxHeigth(ball1.maxHeigth)
+        }
+
+        onHealthChanged: {
+            runningStats.updateHealth(ball1.health)
+            if (ball1.health <= 0) {
+                console.log("Game Over")
+                runner.stop()
+            }
+        }
     }
 
     BallTrail {
         id: ballTrail1
         trailColor: ball1.trailColor
-        z: -1
+        z: -2
     }
 
     Floor {
         id: mainFloor
+    }
+
+    RunningStats {
+        id: runningStats
+        x: 25
+        y: 25
+        z: -2
+    }
+
+    Board {
+        id: board
+        x: 400
+        y: 25
+        z: -1
     }
 
 }

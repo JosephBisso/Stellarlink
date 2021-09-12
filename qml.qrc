@@ -6,5 +6,11 @@
         <file>qml/Ball.qml</file>
         <file>qml/Floor.qml</file>
         <file>qml/BallTrail.qml</file>
+        <file>qml/RunningStats.qml</file>
+        <file>qml/HealthBar.qml</file>
+        <file>qml/Board.qml</file>
+        <file>qml/Speedometer.qml</file>
+        <file>qml/Heightmeter.qml</file>
+        <file>qml/ShowingBehaviour.qml</file>
     </qresource>
 </RCC>

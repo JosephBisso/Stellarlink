@@ -8,10 +8,18 @@ Ball::Ball(double radius, QObject *parent) : Touchable(parent)
     this -> setPos_y(FieldSizes::BallYStartPosition);
     this -> setMasse(2);
     this -> setVelocities(LevelParameter::BallMovingVelocity, 0);
+    this -> highTanResistant = false;
+    setHealth(100);
     initKonstante();
     resetState();
     trail();
-    qDebug() << "konstruktor";
+}
+
+bool Ball::hit(double health)
+{
+    this -> health -= health;
+    emit healthChanged();
+    return health > 0;
 }
 
 const QPolygonF &Ball::getBallPath() const
@@ -56,6 +64,16 @@ bool Ball::isFalling()
 bool Ball::isOnGround()
 {
     return this -> ballLocation == BallLocation::Ground;
+}
+
+bool Ball::isHighTanResistant()
+{
+    return highTanResistant;
+}
+
+void Ball::setHighTanResistance(bool resistant)
+{
+    highTanResistant = resistant;
 }
 
 void Ball::equation()
