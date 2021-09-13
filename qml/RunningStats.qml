@@ -7,6 +7,8 @@ Frame {
     width: 350
     height: 150
 
+    property color mColor: "black"
+
     background: Rectangle {
         radius: 25
         Layout.fillHeight: true
@@ -25,6 +27,7 @@ Frame {
             text: "HEALTH"
             font.weight: Font.Bold
             font.pixelSize: 14
+            color: mColor
         }
 
         HealthBar {
@@ -38,6 +41,7 @@ Frame {
             text: "SCORE"
             font.weight: Font.Bold
             font.pixelSize: 14
+            color: mColor
         }
 
         Label {
@@ -46,6 +50,7 @@ Frame {
             text: score - 13 > 0 ? String(score - 13).padStart(8, '0') : String(0).padStart(8, '0')
             font.pixelSize: 16
             font.italic: true
+            color: mColor
 
             ShowingBehaviour on text{}
         }
@@ -54,6 +59,7 @@ Frame {
             text: "MAX. SPEED"
             font.weight: Font.Bold
             font.pixelSize: 14
+            color: mColor
         }
 
         Label {
@@ -62,6 +68,7 @@ Frame {
             text: String(maxSpeed).padStart(6, '0') + " mph"
             font.pixelSize: 16
             font.italic: true
+            color: mColor
 
             ShowingBehaviour on text{}
         }
@@ -70,6 +77,7 @@ Frame {
             text: "MAX. HEIGTH"
             font.weight: Font.Bold
             font.pixelSize: 14
+            color: mColor
         }
 
         Label {
@@ -78,6 +86,7 @@ Frame {
             text: String(maxHeigth).padStart(8, '0') + " m"
             font.pixelSize: 16
             font.italic: true
+            color: mColor
 
             ShowingBehaviour on text{}
         }
@@ -86,6 +95,7 @@ Frame {
             text: "DISTANCE"
             font.weight: Font.Bold
             font.pixelSize: 14
+            color: mColor
         }
 
         Label {
@@ -95,6 +105,7 @@ Frame {
             text: String(+distance.toFixed(2)).padStart(8, '0') + " m"
             font.pixelSize: 16
             font.italic: true
+            color: mColor
         }
 
     }
@@ -122,4 +133,11 @@ Frame {
         textForScore.score = 0;
     }
 
+    function keepTrack() {
+        return [healthBar.health, textForScore.text, textForMaxSpeed.text, textForMaxHeigth.text]
+    }
+
+    function loadStats(health, score, speed, height) {
+        [healthBar.health, textForScore.text, textForMaxSpeed.text, textForMaxHeigth.text] = [health, score, speed, height]
+    }
 }

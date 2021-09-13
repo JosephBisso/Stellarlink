@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
@@ -9,6 +9,7 @@ Frame {
     clip: true
 
     background: Rectangle {
+        id: boardRectangle
         radius: 25
         Layout.fillHeight: true
         Layout.fillWidth: true

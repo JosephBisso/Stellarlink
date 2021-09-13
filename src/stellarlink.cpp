@@ -1,6 +1,6 @@
 #include "stellarlink.h"
 
-stellarlink::stellarlink(QObject *parent) : QObject(parent)
+Stellarlink::Stellarlink(QObject *parent) : QObject(parent)
 {
 
 }

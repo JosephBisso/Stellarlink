@@ -8,6 +8,7 @@
 #include "floor.h"
 #include "ball.h"
 #include "stellarengine.h"
+#include "stellarlink.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    QPointer<Ball> ballLogik = new Ball(25);
+    QPointer<Ball> ballLogik = new Ball(20);
     ballLogik -> defineKonstante(28, 10, 15);
     QPointer<Floor> floorLogik = new Floor(0);
     QPointer<StellarEngine> stellarEngine = new StellarEngine(ballLogik, floorLogik);
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
     engine.rootContext() -> setContextProperty("stellarEngine", stellarEngine);
     engine.rootContext() -> setContextProperty("floorLogik", floorLogik);
 
-//    qmlRegisterType<Ball>("stellarLink.ball", 1,0, "BallLogikS");
+    qmlRegisterType<Stellarlink>("Stellar.Stellarlink", 1,0, "StellarLink");
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

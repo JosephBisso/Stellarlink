@@ -12,5 +12,9 @@
         <file>qml/Speedometer.qml</file>
         <file>qml/Heightmeter.qml</file>
         <file>qml/ShowingBehaviour.qml</file>
+        <file>qml/MenuButton.qml</file>
+        <file>qml/JScript.js</file>
+        <file>qml/MainMenu.qml</file>
+        <file>qml/CustomButton.qml</file>
     </qresource>
 </RCC>

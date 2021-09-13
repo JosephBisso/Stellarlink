@@ -3,11 +3,11 @@
 
 #include <QObject>
 
-class stellarlink : public QObject
+class Stellarlink : public QObject
 {
     Q_OBJECT
 public:
-    explicit stellarlink(QObject *parent = nullptr);
+    explicit Stellarlink(QObject *parent = nullptr);
 
 
 signals:
