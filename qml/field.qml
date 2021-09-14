@@ -6,11 +6,13 @@ Frame {
     id: fielRoot
     anchors.fill: parent
     focus: true
+    clip: true
 
     signal gameOver()
 
     background: Rectangle {
         anchors.fill: parent
+        color: "black"
     }
 
     Timer {
@@ -30,17 +32,28 @@ Frame {
         y: 25
     }
 
-    DevGrid {
-        id: lwxDevGrid
+    Image {
+        id: backgroundImage
+        source: "qrc:/img/Stellar_Background.png"
+        x: -20 -ballLogik.pos_x / width
+        y: -20
         z: -3
-        x_interval: 25
-        y_interval: 25
+        fillMode: Image.PreserveAspectCrop
+
+        Behavior on x {NumberAnimation{ duration: 500}}
     }
+
+//    DevGrid {
+//        id: lwxDevGrid
+//        z: -3
+//        x_interval: 25
+//        y_interval: 25
+//    }
 
     Ball {
         id: ball1
 
-        onActualSpeedChanged: board.updateSpeed(ball1.actualSpeed)
+        onActualSpeedChanged:{ board.updateSpeed(ball1.actualSpeed);}
         onMaxSpeedChanged: {
             runningStats.updateMaxSpeed(ball1.maxSpeed)
             board.updateMaxSpeed(ball1.maxSpeed)
@@ -54,6 +67,7 @@ Frame {
 
         onHealthChanged: {
             runningStats.updateHealth(ball1.health)
+            ballHitSound.play()
             if (ball1.health <= 0) {
                 console.log("Game Over")
                 pause()
@@ -95,6 +109,9 @@ Frame {
                         JS.startGame()
                         break
                     case Qt.Key_Space:
+                        pause()
+                        break
+                    case Qt.Key_Escape:
                         pause()
                         break
                     case Qt.Key_Backtab:

@@ -53,6 +53,7 @@ Frame {
             color: mColor
 
             ShowingBehaviour on text{}
+            onTextChanged: scoreSound.play()
         }
 
         Label {

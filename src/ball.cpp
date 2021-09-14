@@ -52,6 +52,11 @@ void Ball::setBallLocation(BallLocation newBallLocation)
     ballLocation = newBallLocation;
 }
 
+BallLocation Ball::getBallLocation() const
+{
+    return this -> ballLocation;
+}
+
 bool Ball::isLaunching()
 {
     return this -> ballLocation == BallLocation::Launching;

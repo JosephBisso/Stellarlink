@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "JScript.js" as JS
 
@@ -27,12 +27,13 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
-        onEntered: {JS.hoverButton(root)}
-        onExited: {JS.notHoverAnymore(root)}
+        onEntered: {JS.hoverButton(root);}
+        onExited: {JS.notHoverAnymore(root);}
         onClicked:
             (event) => {
                 if (event.button === Qt.LeftButton) {
                     root.clicked()
+                    clickSound.play()
                     event.accepted = true;
                 }
             }
@@ -43,12 +44,12 @@ Rectangle {
         anchors.centerIn: parent
         text: mText
         font.pixelSize: 20
-        font.weight: 14
+        font.bold: true
         color: "white"
 
     }
 
-    Behavior on scale {NumberAnimation {duration: 100}}
+    Behavior on scale {NumberAnimation {duration: 200}}
     Behavior on color {ColorAnimation {duration: 100}}
 
 }

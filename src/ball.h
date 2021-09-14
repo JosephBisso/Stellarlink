@@ -8,11 +8,10 @@ class Ball : public Touchable
 {
 
     Q_OBJECT
-    Q_PROPERTY(double radius READ getRadius WRITE setRadius NOTIFY radiusChanged)
-    Q_PROPERTY(double fuelle READ getFuelle WRITE setFuelle NOTIFY fuelleChanged)
-    Q_PROPERTY(double health READ getHealth WRITE setHealth NOTIFY healthChanged)
+    Q_PROPERTY(double radius READ getRadius NOTIFY radiusChanged)
+    Q_PROPERTY(double fuelle READ getFuelle NOTIFY fuelleChanged)
+    Q_PROPERTY(double health READ getHealth NOTIFY healthChanged)
     Q_PROPERTY(QPolygonF ballPath READ getBallPath NOTIFY ballPathChanged)
-    Q_PROPERTY(BallStates ballState READ getBallState NOTIFY statesChanged)
 
 private:
     double radius;
@@ -61,9 +60,7 @@ public:
     void resetState();
 
     void setBallLocation(BallLocation newBallLocation);
-    bool isLaunching();
-    bool isFalling();
-    bool isOnGround();
+    BallLocation getBallLocation() const;
 
     bool isHighTanResistant();
     void setHighTanResistance(bool resistant);
@@ -79,12 +76,18 @@ signals:
 
     int statesChanged();
 
+    void ballLocationChanged();
+
 public slots:
     bool touched(Touchable* touchable);
 
     void defineKonstante(double feder, double l0, double daempfer);
 
     void resetBallPath();
+
+    bool isLaunching();
+    bool isFalling();
+    bool isOnGround();
 };
 
 #endif // BALL_H

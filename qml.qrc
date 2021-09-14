@@ -21,5 +21,15 @@
         <file>img/Stellar_Decelerating.png</file>
         <file>img/Stellar_Descending.png</file>
         <file>qml/GameControls.qml</file>
+        <file>img/Stellar_Background.png</file>
+        <file>sound/ballDecelerating.wav</file>
+        <file>sound/ballLaunchin.wav</file>
+        <file>sound/ballStick.wav</file>
+        <file>sound/buttonClick.wav</file>
+        <file>sound/buttonHover.wav</file>
+        <file>sound/scoreUp.wav</file>
+        <file>sound/ballHit.wav</file>
+        <file>sound/ballAccelerating.wav</file>
+        <file>sound/stellarBackground.mp3</file>
     </qresource>
 </RCC>

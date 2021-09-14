@@ -13,11 +13,11 @@
 class Touchable : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(double pos_x READ getPos_x WRITE setPos_x NOTIFY pos_xChanged)
-    Q_PROPERTY(double pos_y READ getPos_y WRITE setPos_y NOTIFY pos_yChanged)
-    Q_PROPERTY(double velocityX READ getVelocityX WRITE setVelocityX NOTIFY velocityXChanged)
-    Q_PROPERTY(double velocityY READ getVelocityY WRITE setVelocityY NOTIFY velocityYChanged)
-    Q_PROPERTY(double heigth READ getHeigth WRITE setHeigth NOTIFY heigthChanged)
+    Q_PROPERTY(double pos_x READ getPos_x NOTIFY pos_xChanged)
+    Q_PROPERTY(double pos_y READ getPos_y NOTIFY pos_yChanged)
+    Q_PROPERTY(double velocityX READ getVelocityX NOTIFY velocityXChanged)
+    Q_PROPERTY(double velocityY READ getVelocityY NOTIFY velocityYChanged)
+    Q_PROPERTY(double heigth READ getHeigth NOTIFY heigthChanged)
 
 private:
     double pos_x;

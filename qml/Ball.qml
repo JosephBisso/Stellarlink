@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 
 
 Rectangle {
@@ -7,10 +7,10 @@ Rectangle {
     y: ballLogik.pos_y - 0.8 * width
     width: ballLogik.radius * 2
     height: width
-    color: "grey"
+    color: Qt.lighter("gray", 1.3)
     border {
         color: "black"
-        width: 3
+        width: 4
     }
     radius: width * 0.5
 
@@ -21,24 +21,25 @@ Rectangle {
     property double maxHeigth: stellarEngine.maxHeigth
     property double health: ballLogik.health
 
-    RotationAnimation on rotation {
-        id: rolling
-        running: ball.actualSpeed > 3
-        loops: Animation.Infinite
-        from: 0
-        to: 360
-    }
+
+//    RotationAnimation on rotation {
+//        id: rolling
+//        running: ball.actualSpeed > 3
+//        loops: Animation.Infinite
+//        from: 0
+//        to: 360
+//    }
 
     Rectangle {
         id: accelerationGlow
         x: -(width - ball.width) / 2
         y: x
         z: -1
-        opacity: 0
+        opacity: 0.25
         width: ball.width + ball.border.width + 4
         height: width
         radius: width * 0.5
-        color: "transparent"
+        color: ball.color
         border {
             color: Qt.lighter(color, 1.5)
             width: 3
@@ -56,19 +57,19 @@ Rectangle {
         states: [
                 State {
                     name: "Default"
-                    PropertyChanges { target: accelerationGlow; color: "transparent"; opacity: 0}
+                    PropertyChanges { target: accelerationGlow; color: ball.color; opacity: 0.55}
                 },
                 State {
                     name: "Accelerate"
-                    PropertyChanges { target: accelerationGlow; color: "darkred"; opacity: 75}
+                    PropertyChanges { target: accelerationGlow; color: "darkred"; opacity: 0.75}
                 },
                 State {
                     name: "Decelerate"
-                    PropertyChanges { target: accelerationGlow; color: "lightsteelblue"; opacity: 80}
+                    PropertyChanges { target: accelerationGlow; color: "lightsteelblue"; opacity: 0.80}
                 },
                 State {
                     name: "Stick"
-                    PropertyChanges { target: accelerationGlow; color: "darkblue"; opacity: 50}
+                    PropertyChanges { target: accelerationGlow; color: "darkblue"; opacity: 0.50}
                 }
             ]
 
@@ -103,19 +104,25 @@ Rectangle {
 
     function accelerate() {
         accelerationGlow.state = "Accelerate"
+        accelerationSound.play()
+
     }
 
     function resetState() {
         accelerationGlow.state = "Default"
-        accelerationGlow.color = "transparent"
+        if (accelerationSound.playing){accelerationSound.stop()}
+        if (decelerationSound.playing){decelerationSound.stop()}
+        if (ballStickSound.playing){ballStickSound.stop()}
     }
 
     function decelerate() {
         accelerationGlow.state = "Decelerate"
+        decelerationSound.play()
     }
 
     function stick() {
         accelerationGlow.state = "Stick"
+        ballStickSound.play()
     }
 
 }

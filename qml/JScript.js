@@ -11,6 +11,7 @@ function hoverButton(object) {
     object.border.color = Qt.lighter(oldColor, 1.2)
 
     object.scale = 1.1
+    hoverSound.play()
 }
 
 function notHoverAnymore(object) {
@@ -18,6 +19,7 @@ function notHoverAnymore(object) {
     object.border.color = Qt.darker(oldColor, 1.2)
 
     object.scale = 1
+    hoverSound.stop()
 }
 
 function startGame() {
