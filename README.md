@@ -35,3 +35,7 @@ After running the project, the game should open soon. You can then play the game
 ## Bugs and Issues
 
 If you encounter anything odd with the game, or problem while building/running the project feel free to report an [**issue**](https://github.com/JosephBisso/Stellarlink/issues).
+
+# Other Game Project
+
+- [**Card Game**](https://github.com/JosephBisso/Cardgame)
