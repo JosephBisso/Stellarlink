@@ -13,8 +13,8 @@ Frame {
         radius: 25
         Layout.fillHeight: true
         Layout.fillWidth: true
-        color: "black"
-        border{width: 10; color: "black"}
+        color: rootWindow.darkColor
+        border{width: 10; color: Qt.lighter(rootWindow.darkColor, 1.3)}
     }
 
     GridLayout {

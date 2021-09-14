@@ -9,7 +9,7 @@ Item {
         width: 150
         border {
             width: 3;
-            color: "black"
+            color: "white"
         }
         color: Qt.hsla(hitColor.hslHue, hitColor.hslSaturation, hitColor.hslLightness, 0.3)
         radius: 6
@@ -23,7 +23,7 @@ Item {
                 margins: parent.border.width
             }
 
-            border{width: 1; color: "black"}
+            border{width: 1; color: "white"}
 
             width: (parent.width - 2 * parent.border.width) * health / 100
             height: parent.height - 2 * parent.border.width

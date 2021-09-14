@@ -9,6 +9,10 @@ Frame {
 
     signal gameOver()
 
+    background: Rectangle {
+        anchors.fill: parent
+    }
+
     Timer {
         id: runner
         interval: 30; running: false; repeat: true
@@ -26,7 +30,7 @@ Frame {
         y: 25
     }
 
-    LWXdevGrid {
+    DevGrid {
         id: lwxDevGrid
         z: -3
         x_interval: 25
@@ -73,6 +77,7 @@ Frame {
         x: 25
         y: 25
         z: -2
+        mColor: "white"
     }
 
     Board {

@@ -7,7 +7,7 @@ Frame {
 
     background: Rectangle {
         anchors.fill: parent
-        color: "black"
+        color: rootWindow.ligthColor
         radius: 25
         border {
             width: 10
@@ -25,13 +25,13 @@ Frame {
 
         text: "StellarLINK"
         color: "white"
-        font.pointSize: 60
+        font.pointSize: 62
         font.bold: true
         style: Text.Outline
-        styleColor: "blue"
+        styleColor: rootWindow.darkColor
     }
 
-    StackView {
+    Frame {
         id: stackView
         anchors {
             top: title.bottom
@@ -51,11 +51,18 @@ Frame {
             }
         }
 
-        initialItem: RunningStats{
-                        id: stats
-                        mColor: "white"
-                        anchors.fill: parent
-                     }
+        GameControls {
+            id: gameControls
+            visible: true
+            anchors.fill: parent
+        }
+
+        RunningStats{
+            id: stats
+            mColor: "white"
+            visible: !gameControls.visible
+            anchors.fill: parent
+        }
     }
 
     RowLayout {
@@ -79,6 +86,7 @@ Frame {
                 drawer.close()
                 field.start()
                 continueButton.mVisible = true
+                gameControls.visible = false
             }
         }
 

@@ -12,7 +12,7 @@ Rectangle {
     width: mWidth
     height: mHeigth
     radius: 20
-    color: "blue"
+    color: rootWindow.darkColor
     visible: mVisible
 
     border {

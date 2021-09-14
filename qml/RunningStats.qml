@@ -14,7 +14,7 @@ Frame {
         Layout.fillHeight: true
         Layout.fillWidth: true
         color: "transparent"
-        border{width: 10; color: "grey"}
+        border{width: 10; color: rootWindow.ligthColor}
     }
 
     GridLayout {

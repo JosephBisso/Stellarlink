@@ -31,7 +31,7 @@ Item {
         z:1
         width: circle.width + circle.border.width + 2
         height: circle.height / 2
-        color: "black"
+        color: rootWindow.darkColor
         anchors.horizontalCenter: circle.horizontalCenter
 
     }

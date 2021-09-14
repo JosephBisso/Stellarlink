@@ -7,7 +7,7 @@ Rectangle {
     y: ballLogik.pos_y - 0.8 * width
     width: ballLogik.radius * 2
     height: width
-    color: "pink"
+    color: "grey"
     border {
         color: "black"
         width: 3
@@ -21,21 +21,12 @@ Rectangle {
     property double maxHeigth: stellarEngine.maxHeigth
     property double health: ballLogik.health
 
-    Rectangle {
-        id: kreuzMitte
-        anchors.centerIn: parent
-        z: 1
-        height: 25
-        width: 2
-        color: "black"
-
-        RotationAnimation on rotation {
-            id: rolling
-            running: ball.actualSpeed > 3
-            loops: Animation.Infinite
-            from: 0
-            to: 360
-        }
+    RotationAnimation on rotation {
+        id: rolling
+        running: ball.actualSpeed > 3
+        loops: Animation.Infinite
+        from: 0
+        to: 360
     }
 
     Rectangle {

@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>qml/LWXdevGrid.qml</file>
+        <file>qml/DevGrid.qml</file>
         <file>qml/Field.qml</file>
         <file>qml/Ball.qml</file>
         <file>qml/Floor.qml</file>
@@ -16,5 +16,10 @@
         <file>qml/JScript.js</file>
         <file>qml/MainMenu.qml</file>
         <file>qml/CustomButton.qml</file>
+        <file>img/Stellar_Accelerating.png</file>
+        <file>img/Stellar_Controls.png</file>
+        <file>img/Stellar_Decelerating.png</file>
+        <file>img/Stellar_Descending.png</file>
+        <file>qml/GameControls.qml</file>
     </qresource>
 </RCC>

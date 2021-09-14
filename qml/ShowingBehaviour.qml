@@ -7,7 +7,7 @@ Behavior {
         NumberAnimation {
             target: root.fadeTarget
             property: "scale"
-            to: 1.4
+            to: 1.5
             easing.type: Easing.InCubic
         }
         PropertyAction { }

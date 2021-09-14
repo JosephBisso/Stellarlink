@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml gui LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml gui LinguistTools REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml gui quickcontrols2 LinguistTools REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml gui quickcontrols2 LinguistTools REQUIRED)
 
 FIND_PACKAGE(Qt5QuickCompiler QUIET)
 IF(Qt5QuickCompiler_FOUND AND NOT CMAKE_BUILD_TYPE MATCHES Debug AND NOT CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
@@ -40,12 +40,17 @@ set(PROJECT_SOURCES
         ${TS_FILES}
 )
 
+set(APP_ICON_RESOURCE_WINDOWS img/stellarlink.rc)
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Stellarlink
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ${RESOURCES}
+        ${APP_ICON_RESOURCE_WINDOWS}
     )
+
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Stellarlink APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -56,19 +61,21 @@ else()
     if(ANDROID)
         add_library(Stellarlink SHARED
             ${PROJECT_SOURCES}
+            ${APP_ICON_RESOURCE_WINDOWS}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(Stellarlink
           ${PROJECT_SOURCES}
+          ${APP_ICON_RESOURCE_WINDOWS}
         )
     endif()
 
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-include_directories(src qml)
+include_directories(src qml img)
 
 target_compile_definitions(Stellarlink
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

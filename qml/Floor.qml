@@ -21,10 +21,10 @@ Item {
         }
 
         onPaint: {
-            context.strokeStyle = "blue";
+            context.strokeStyle = rootWindow.darkColor;
             context.lineWidth = 5;
             context.path = myPath;
-            context.fillStyle = "transparent"
+            context.fillStyle = rootWindow.ligthColor
             context.fill()
             context.stroke();
         }

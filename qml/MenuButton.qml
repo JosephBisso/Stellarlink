@@ -11,11 +11,11 @@ Frame {
     background: Rectangle {
         id: rectangleBackgroung
         anchors.fill: parent
-        color: "blue"
+        color: rootWindow.darkColor
         radius: 25
         border {
             width: 10
-            color: "blue"
+            color: Qt.lighter(color, 1.3)
         }
     }
 
