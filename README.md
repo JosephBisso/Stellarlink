@@ -4,13 +4,29 @@
 
 **StellarLink** is a 2D mini game / **Fall Physic Simulator** written in **Qt/QML**, **C++** and **JavaScript**.
 
-In the game, you control a little ball cruising on the moon and enjoying a nice view on the planet Earth. You have to cover the ***most distance*** as possible, with the ***most speed*** as possible and reaching the ***most heigth*** as possible, while keeping the ***health bar above 0***. To do so, you will have to avoid hitting stiff egde by using the control button `←`, `↑` and `→` . 
+In the game, you control a little ball cruising on the moon and enjoying a nice view on the planet Earth. You have to cover the ***most distance*** as possible, with the ***most speed*** as possible and reaching the ***most heigth*** as possible, while keeping the ***health bar above 0***. To do so, you will have to avoid hitting stiff egde by using the control button `←`, `↓` and `→` . 
 
-## Screenshots
+## Game Mechanics
 
-![Stellar-rot](https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_accelerating.gif "Accelerating")
+### Accelerating and Flying
 
-![Stellar-blau](https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_decelerating.gif "Decelerating")
+- You can dot it with `→`. The ball will have a **low acceleration gain**, but you can reach the **highest heights** by doing so
+
+<p align="center">
+  <img src="https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_accelerating.gif">
+</p>
+
+### Accelerating and Sticking on Ground
+
+- You can dot it with `↓`. The ball will have a **low heigth gain**, but you can reach the **highest speed** by doing so
+
+<p align="center">
+  <img src="https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_decelerating.gif">
+</p>
+
+### Decelerating
+
+- You can decelerate either with `←` (**quick deceleration**), or by simply don't press any button (**slow deceleration**)
 
 ## Play
 
