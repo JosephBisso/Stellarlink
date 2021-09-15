@@ -4,9 +4,13 @@
 
 **StellarLink** is a 2D mini game / **Fall Physic Simulator** written in **Qt/QML**, **C++** and **JavaScript**.
 
-In the game, you control a little ball cruising on the moon enjoying a nice view on the planet Earth. You have to cover the ***most distance*** as possible, with the ***most speed*** as possible and reaching the ***most heigth*** as possible, while keeping the ***health bar above 0***. To do so, you will have to avoid hitting stiff egde by using the control button `←`, `↑` and `→` . 
+In the game, you control a little ball cruising on the moon and enjoying a nice view on the planet Earth. You have to cover the ***most distance*** as possible, with the ***most speed*** as possible and reaching the ***most heigth*** as possible, while keeping the ***health bar above 0***. To do so, you will have to avoid hitting stiff egde by using the control button `←`, `↑` and `→` . 
 
 ## Screenshots
+
+![Stellar-rot](https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_accelerating.gif "Accelerating")
+
+![Stellar-blau](https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_decelerating.gif "Decelerating")
 
 ## Play
 
@@ -30,7 +34,9 @@ The only one dependency is [**Qt Creator**](https://www.qt.io/download). The Gam
 
 ### Run
 
-After running the project, the game should open soon. You can then play the game and have fun
+After running the project, the game should open soon. You can then play the game. Have fun, enjoy the chill music and the view on the earth!
+
+![Stellar-eartj](https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_earth.gif "view on earth")
 
 ## Bugs and Issues
 
