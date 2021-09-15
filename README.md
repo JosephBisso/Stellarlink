@@ -50,9 +50,11 @@ The only one dependency is [**Qt Creator**](https://www.qt.io/download). The Gam
 
 ### Run
 
-After running the project, the game should open soon. You can then play the game. Have fun, enjoy the chill music and the view on the earth!
+- After running the project, the game should open soon. You can then play the game. Have fun, enjoy the chill music and the view on the earth!
 
-![Stellar-eartj](https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_earth.gif "view on earth")
+<p align="center">
+  <img width="750" src="https://github.com/JosephBisso/Stellarlink/blob/main/.github/gif/Stellar_earth.gif ">
+</p>
 
 ## Bugs and Issues
 
