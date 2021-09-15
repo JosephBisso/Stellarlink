@@ -18,17 +18,6 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-
-    QTranslator translator;
-    const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for (const QString &locale : uiLanguages) {
-        const QString baseName = "Stellarlink_" + QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName)) {
-            app.installTranslator(&translator);
-            break;
-        }
-    }
-
     QQmlApplicationEngine engine;
 
     QPointer<Ball> ballLogik = new Ball(18);
@@ -48,6 +37,9 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    QObject::connect(&engine, &QQmlApplicationEngine::quit, &QGuiApplication::quit);
+
     engine.load(url);
 
     return app.exec();

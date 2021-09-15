@@ -37,6 +37,8 @@ ApplicationWindow  {
 
             MainMenu{
                 id: mainMenu
+
+                onQuit: Qt.quit()
             }
 
             onOpened: {

@@ -1,9 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQml 2.15
 
 Frame {
+    id: rootFrame
     anchors.fill: parent
+
+    signal quit()
 
     background: Rectangle {
         anchors.fill: parent
@@ -106,7 +110,7 @@ Frame {
             mText: "Quit"
             Layout.alignment: Qt.AlignHCenter
 
-            onClicked: rootWindow.close()
+            onClicked: rootFrame.quit()
         }
     }
 

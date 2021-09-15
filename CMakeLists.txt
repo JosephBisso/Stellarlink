@@ -14,15 +14,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml gui quickcontrols2 LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml gui quickcontrols2 LinguistTools REQUIRED)
 
-FIND_PACKAGE(Qt5QuickCompiler QUIET)
-IF(Qt5QuickCompiler_FOUND AND NOT CMAKE_BUILD_TYPE MATCHES Debug AND NOT CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
-  QTQUICK_COMPILER_ADD_RESOURCES(RESOURCES qml.qrc)
-ELSE()
-  SET(RESOURCES qml.qrc)
-ENDIF()
-
-set(TS_FILES Stellarlink_en_DE.ts)
-
 set(PROJECT_SOURCES
         src/main.cpp
         qml.qrc
@@ -37,7 +28,6 @@ set(PROJECT_SOURCES
         src/floor.cpp
         src/stellarengine.h
         src/stellarengine.cpp
-        ${TS_FILES}
 )
 
 set(APP_ICON_RESOURCE_WINDOWS img/stellarlink.rc)
@@ -46,7 +36,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Stellarlink
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        ${RESOURCES}
         ${APP_ICON_RESOURCE_WINDOWS}
     )
 
@@ -56,7 +45,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR})
 else()
     if(ANDROID)
         add_library(Stellarlink SHARED
@@ -72,7 +61,7 @@ else()
         )
     endif()
 
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR})
 endif()
 
 include_directories(src qml img)
