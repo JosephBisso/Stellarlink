@@ -1,5 +1,8 @@
 # Stellarlink
 
+[![GitHub release](https://img.shields.io/github/v/release/Josephbisso/Stellarlink.svg)](https://github.com/JosephBisso/Stellarlink/releases) 
+![made-with-QtCreator](https://img.shields.io/badge/Made%20with-QtCreator-6cc644.svg)
+
 ## Description
 
 **StellarLink** is a 2D mini game / **Fall Physic Simulator** written in **Qt/QML**, **C++** and **JavaScript**.
